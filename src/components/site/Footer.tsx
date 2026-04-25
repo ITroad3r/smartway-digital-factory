@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { Linkedin, Mail, MapPin } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
-import logo from "@/assets/logo-smartway.jpeg";
 
 export default function Footer() {
   const { t, pick } = useI18n();
@@ -10,10 +9,15 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-paper-soft">
+    <footer className="relative border-t border-border bg-paper-soft overflow-hidden">
+      {/* Subtle brand blue accent line */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent to-transparent opacity-60" />
+
       <div className="container-editorial py-16 grid gap-12 lg:grid-cols-4">
         <div className="lg:col-span-2 max-w-md">
-          <img src={logo} alt="Smartway" className="h-12 w-auto mb-4" width={160} height={48} />
+          <p className="display-serif text-2xl mb-4">
+            Smart<span className="text-accent">way</span>
+          </p>
           <p className="text-muted-foreground text-sm leading-relaxed">{t("footer.tagline")}</p>
         </div>
 
@@ -32,17 +36,17 @@ export default function Footer() {
           <ul className="space-y-3 text-sm">
             {settings?.contact_email && (
               <li className="flex items-start gap-2">
-                <Mail className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                <Mail className="h-4 w-4 mt-0.5 text-accent" />
                 <a href={`mailto:${settings.contact_email}`} className="link-underline">{settings.contact_email}</a>
               </li>
             )}
             <li className="flex items-start gap-2">
-              <MapPin className="h-4 w-4 mt-0.5 text-muted-foreground" />
+              <MapPin className="h-4 w-4 mt-0.5 text-accent" />
               <span>{pick(settings, "address") || t("footer.location")}</span>
             </li>
             {settings?.linkedin_url && (
               <li className="flex items-start gap-2">
-                <Linkedin className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                <Linkedin className="h-4 w-4 mt-0.5 text-accent" />
                 <a href={settings.linkedin_url} target="_blank" rel="noopener" className="link-underline">LinkedIn</a>
               </li>
             )}
@@ -50,9 +54,8 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="container-editorial border-t border-border py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+      <div className="container-editorial border-t border-border py-6 text-xs text-muted-foreground">
         <p>© {year} Smartway. {t("footer.rights")}</p>
-        <p className="font-display italic">{t("tag.tagline")}</p>
       </div>
     </footer>
   );

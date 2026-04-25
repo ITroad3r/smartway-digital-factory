@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/logo-smartway.jpeg";
+import logo from "@/assets/logo-smartway.png";
 import { useI18n, Lang } from "@/lib/i18n";
 import { cn } from "@/lib/utils";
 
@@ -34,19 +34,21 @@ export default function Header() {
         scrolled ? "bg-paper/90 backdrop-blur-md border-b border-border" : "bg-transparent"
       )}
     >
-      <div className="container-editorial flex h-20 items-center justify-between">
-        <Link to="/" className="flex items-center gap-2" aria-label="Smartway home">
-          <img src={logo} alt="Smartway" className="h-10 w-auto" width={120} height={40} />
+      <div className="container-editorial flex h-24 items-center justify-between gap-6">
+        <Link to="/" className="flex items-center" aria-label="Smartway home">
+          <img src={logo} alt="Smartway" className="h-14 md:h-16 w-auto" />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-10">
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8">
           {links.map((l) => (
             <Link
               key={l.to}
               to={l.to}
               className={cn(
-                "text-sm font-medium transition-colors hover:text-accent",
-                location.pathname === l.to ? "text-accent" : "text-foreground"
+                "text-sm font-medium transition-colors hover:text-accent relative",
+                location.pathname === l.to
+                  ? "text-accent after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:h-0.5 after:w-full after:bg-accent"
+                  : "text-foreground"
               )}
             >
               {l.label}
@@ -76,7 +78,7 @@ export default function Header() {
             {t("cta.contact")}
           </Link>
           <button
-            className="lg:hidden p-2 -mr-2"
+            className="md:hidden p-2 -mr-2"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
           >
@@ -86,7 +88,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="lg:hidden bg-paper border-t border-border animate-fade-in">
+        <div className="md:hidden bg-paper border-t border-border animate-fade-in">
           <nav className="container-editorial py-6 flex flex-col gap-4">
             {links.map((l) => (
               <Link key={l.to} to={l.to} className="text-lg font-medium py-2">

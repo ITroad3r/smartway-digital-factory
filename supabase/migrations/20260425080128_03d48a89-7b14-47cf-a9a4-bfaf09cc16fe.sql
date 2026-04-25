@@ -1,0 +1,1 @@
+UPDATE public.site_settings SET address_en = 'Agadir, Morocco', address_fr = 'Agadir, Maroc' WHERE address_en ILIKE '%casablanca%' OR address_fr ILIKE '%casablanca%' OR address_en IS NULL OR address_en = '';
