@@ -32,28 +32,31 @@
     --muted: 36 22% 92%;
     --muted-foreground: 220 15% 42%;
 
-    --accent: 204 92% 53%;               /* smartway electric blue */
+    --accent: 199 85% 52%;               /* smartway brand blue (logo) */
     --accent-foreground: 0 0% 100%;
-    --accent-soft: 204 80% 92%;
+    --accent-soft: 199 80% 94%;
+    --accent-deep: 215 75% 22%;          /* smartway navy (logo wordmark) */
 
     --destructive: 0 72% 50%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 220 15% 88%;
     --input: 220 15% 88%;
-    --ring: 204 92% 53%;
+    --ring: 199 85% 52%;
 
     --radius: 0.75rem;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(220 45% 11%) 0%, hsl(215 50% 18%) 60%, hsl(204 92% 30%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(204 92% 53%) 0%, hsl(195 90% 60%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(215 75% 18%) 0%, hsl(210 70% 28%) 55%, hsl(199 85% 45%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(199 85% 52%) 0%, hsl(190 90% 62%) 100%);
     --gradient-fade: linear-gradient(180deg, transparent 0%, hsl(36 33% 97%) 100%);
+    --gradient-soft: linear-gradient(135deg, hsl(199 80% 96%) 0%, hsl(36 33% 97%) 100%);
 
     /* Shadows */
     --shadow-card: 0 1px 2px hsl(220 45% 11% / 0.04), 0 8px 24px -8px hsl(220 45% 11% / 0.08);
     --shadow-elev: 0 12px 40px -12px hsl(220 45% 11% / 0.18);
-    --shadow-glow: 0 20px 60px -20px hsl(204 92% 53% / 0.4);
+    --shadow-glow: 0 20px 60px -20px hsl(199 85% 52% / 0.45);
+    --shadow-brand: 0 1px 0 hsl(199 85% 52% / 0.08), 0 12px 32px -16px hsl(199 85% 52% / 0.25);
 
     /* Transitions */
     --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
