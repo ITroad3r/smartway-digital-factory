@@ -31,15 +31,15 @@ export default function Header() {
         scrolled ? "bg-paper/90 backdrop-blur-md border-b border-border" : "bg-transparent"
       )}
     >
-      <div className="container-editorial py-3 md:py-0">
+      <div className="container-editorial flex flex-col py-3 xl:py-0">
         {/* Top row: logo + language/CTA */}
-        <div className="flex lg:h-24 items-center justify-between gap-3">
+        <div className="flex w-full items-center justify-between gap-3 xl:h-24">
           <Link to="/" className="flex items-center shrink-0" aria-label="Smartway home">
             <img src={logo} alt="Smartway" className="h-12 sm:h-14 md:h-16 w-auto" />
           </Link>
 
           {/* Desktop nav (centered) */}
-          <nav className="hidden lg:flex flex-1 items-center justify-center gap-9">
+          <nav className="hidden xl:flex flex-1 items-center justify-center gap-9">
             {links.map((l) => (
               <Link
                 key={l.to}
@@ -73,7 +73,7 @@ export default function Header() {
             </div>
             <Link
               to="/contact"
-              className="hidden lg:inline-flex items-center justify-center rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background shadow-card transition-all hover:bg-accent hover:shadow-glow"
+              className="hidden xl:inline-flex items-center justify-center rounded-full bg-foreground px-5 py-2.5 text-sm font-medium text-background shadow-card transition-all hover:bg-accent hover:shadow-glow"
             >
               {t("cta.contact")}
             </Link>
@@ -81,7 +81,7 @@ export default function Header() {
         </div>
 
         {/* Mobile nav row (below logo) */}
-        <nav className="lg:hidden mt-3 flex w-full items-center justify-center gap-3 border-t border-border/60 pt-3 sm:gap-6">
+        <nav className="flex w-full basis-full items-center justify-center gap-3 border-t border-border/60 pt-3 mt-3 overflow-x-auto no-scrollbar sm:gap-6 xl:hidden">
           {links.map((l) => (
             <Link
               key={l.to}
