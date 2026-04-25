@@ -33,13 +33,13 @@ export default function Header() {
     >
       <div className="container-editorial py-3 md:py-0">
         {/* Top row: logo + language/CTA */}
-        <div className="flex md:h-24 items-center justify-between gap-3">
+        <div className="flex lg:h-24 items-center justify-between gap-3">
           <Link to="/" className="flex items-center shrink-0" aria-label="Smartway home">
             <img src={logo} alt="Smartway" className="h-12 sm:h-14 md:h-16 w-auto" />
           </Link>
 
           {/* Desktop nav (centered) */}
-          <nav className="hidden md:flex flex-1 items-center justify-center gap-5 md:gap-7 lg:gap-9">
+          <nav className="hidden lg:flex flex-1 items-center justify-center gap-9">
             {links.map((l) => (
               <Link
                 key={l.to}
@@ -81,13 +81,13 @@ export default function Header() {
         </div>
 
         {/* Mobile nav row (below logo) */}
-        <nav className="md:hidden mt-2 flex items-center justify-between gap-1 border-t border-border/60 pt-2">
+        <nav className="lg:hidden mt-3 flex w-full items-center justify-center gap-3 border-t border-border/60 pt-3 sm:gap-6">
           {links.map((l) => (
             <Link
               key={l.to}
               to={l.to}
               className={cn(
-                "text-[13px] font-medium whitespace-nowrap transition-colors hover:text-accent relative px-1 py-1",
+                "text-[13px] font-medium whitespace-nowrap transition-colors hover:text-accent relative py-1 sm:text-sm",
                 location.pathname === l.to
                   ? "text-accent after:content-[''] after:absolute after:-bottom-0.5 after:left-1 after:right-1 after:h-0.5 after:bg-accent"
                   : "text-foreground"
