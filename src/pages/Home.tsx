@@ -44,7 +44,7 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <div className="container-editorial pt-12 lg:pt-20 pb-20 grid lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-7 animate-fade-up">
-            <p className="eyebrow mb-6">{t("tag.tagline")}</p>
+            <p className="eyebrow mb-6 flex items-center"><span className="accent-rule" />{t("tag.tagline")}</p>
             <h1 className="display-serif text-5xl md:text-6xl lg:text-7xl text-balance">
               {pick(settings, "hero_headline") || "Your Partner for Digital Transformation"}
             </h1>
