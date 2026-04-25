@@ -72,9 +72,9 @@ const dict: Dict = {
   "contact.alt.email": { en: "General inquiries", fr: "Demandes générales" },
   "contact.alt.linkedin": { en: "Follow for updates", fr: "Suivez-nous pour les actualités" },
 
-  "footer.tagline": { en: "Shaping the future of digital business — from Morocco, for the world.", fr: "Façonner l'avenir du business digital — depuis le Maroc, pour le monde." },
+  "footer.tagline": { en: "Your partner for digital transformation, cloud, and AI.", fr: "Votre partenaire pour la transformation digitale, le cloud et l'IA." },
   "footer.rights": { en: "All rights reserved.", fr: "Tous droits réservés." },
-  "footer.location": { en: "Casablanca, Morocco", fr: "Casablanca, Maroc" },
+  "footer.location": { en: "Agadir, Morocco", fr: "Agadir, Maroc" },
 };
 
 interface Ctx {
