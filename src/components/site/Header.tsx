@@ -34,17 +34,25 @@ export default function Header() {
       <div className="container-editorial py-3 md:py-0">
         {/* Top row: logo + language/CTA */}
         <div className="flex lg:h-24 items-center justify-between gap-3">
-          <Link to="/" className="flex items-center gap-3 shrink-0" aria-label="Smartway — by ITRoad Group">
-            <img src={logo} alt="Smartway" className="h-12 sm:h-14 md:h-16 w-auto" />
+          <div className="flex items-center gap-3 shrink-0">
+            <Link to="/" className="flex items-center" aria-label="Smartway home">
+              <img src={logo} alt="Smartway" className="h-12 sm:h-14 md:h-16 w-auto" />
+            </Link>
             <span
               aria-hidden="true"
               className="hidden sm:block h-6 md:h-7 w-px bg-border"
             />
-            <span className="hidden sm:flex flex-col leading-tight font-light tracking-[0.18em] text-[9px] md:text-[10px] uppercase text-muted-foreground">
+            <a
+              href="https://itroadgroup.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex flex-col leading-tight font-light tracking-[0.18em] text-[9px] md:text-[10px] uppercase text-muted-foreground transition-colors hover:text-accent"
+              aria-label="ITRoad Group — opens in a new tab"
+            >
               <span className="opacity-70">by</span>
-              <span className="text-foreground/80">ITRoad Group</span>
-            </span>
-          </Link>
+              <span className="text-foreground/80 group-hover:text-accent">ITRoad Group</span>
+            </a>
+          </div>
 
           {/* Desktop nav (centered) */}
           <nav className="hidden lg:flex flex-1 items-center justify-center gap-9">
