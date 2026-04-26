@@ -65,7 +65,7 @@ export default function Home() {
               <img src={hero} alt="Smartway team collaborating" className="h-full w-full object-cover" width={1600} height={1200} />
             </div>
             <div className="absolute -bottom-6 -left-6 rounded-2xl bg-card border border-border shadow-card p-5 hidden md:block">
-              <p className="font-display text-3xl">50+</p>
+              <p className="font-display text-3xl">150+</p>
               <p className="text-xs text-muted-foreground mt-1">Projects · Morocco & beyond</p>
             </div>
           </div>
