@@ -109,11 +109,11 @@
     @apply mx-auto w-full max-w-7xl px-6 md:px-10 lg:px-16;
   }
   .display-serif {
-    font-family: 'Fraunces', Georgia, serif;
-    font-optical-sizing: auto;
-    font-variation-settings: "opsz" 144;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
+    font-family: 'Space Grotesk', 'Inter Tight', system-ui, sans-serif;
+    font-feature-settings: "ss01", "ss02";
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    font-weight: 500;
   }
   .eyebrow {
     @apply text-xs font-medium uppercase tracking-[0.2em] text-accent;
