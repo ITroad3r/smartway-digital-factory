@@ -219,10 +219,45 @@ function ServicesAdmin() {
 function BlogAdmin() {
   return <GenericTable title="Blog posts" table="blog_posts" columns={["slug", "title_en", "category", "published"]} orderBy="created_at"
     fields={[
-      { key: "slug", label: "Slug" }, { key: "category", label: "Category" }, { key: "author", label: "Author" }, { key: "published", label: "Published", type: "bool" },
-      { key: "title_en", label: "Title (EN)" }, { key: "title_fr", label: "Title (FR)" },
-      { key: "excerpt_en", label: "Excerpt (EN)", type: "textarea" }, { key: "excerpt_fr", label: "Excerpt (FR)", type: "textarea" },
-      { key: "content_en", label: "Content (EN)", type: "textarea" }, { key: "content_fr", label: "Content (FR)", type: "textarea" },
+      { type: "section", label: "Basics" },
+      { key: "slug", label: "Slug", help: "URL identifier, e.g. my-post-title" },
+      { key: "category", label: "Category" },
+      { key: "author", label: "Author" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "cover_image", label: "Cover image URL", type: "url" },
+      { key: "reading_time_minutes", label: "Reading time (minutes)", type: "number" },
+
+      { type: "section", label: "Content" },
+      { key: "title_en", label: "Title (EN)" },
+      { key: "title_fr", label: "Title (FR)" },
+      { key: "h1_en", label: "H1 heading (EN)", help: "Optional. Falls back to title." },
+      { key: "h1_fr", label: "H1 heading (FR)" },
+      { key: "h2_en", label: "H2 subheading (EN)" },
+      { key: "h2_fr", label: "H2 subheading (FR)" },
+      { key: "excerpt_en", label: "Excerpt (EN)", type: "textarea" },
+      { key: "excerpt_fr", label: "Excerpt (FR)", type: "textarea" },
+      { key: "content_en", label: "Content (EN)", type: "textarea" },
+      { key: "content_fr", label: "Content (FR)", type: "textarea" },
+
+      { type: "section", label: "SEO — Search engines" },
+      { key: "seo_title_en", label: "SEO title (EN)", help: "Browser tab & Google. Aim < 60 chars." },
+      { key: "seo_title_fr", label: "SEO title (FR)" },
+      { key: "seo_description_en", label: "Meta description (EN)", type: "textarea", help: "Aim < 160 chars." },
+      { key: "seo_description_fr", label: "Meta description (FR)", type: "textarea" },
+      { key: "focus_keyword", label: "Focus keyword" },
+      { key: "seo_keywords", label: "Meta keywords", help: "Comma-separated" },
+      { key: "tags", label: "Tags", type: "tags", help: "Comma-separated. Used in JSON-LD & UI." },
+      { key: "canonical_url", label: "Canonical URL", type: "url", help: "Leave empty to use current URL." },
+      { key: "meta_robots", label: "Robots", help: "e.g. index,follow or noindex,nofollow" },
+      { key: "structured_data_type", label: "Schema.org type", help: "e.g. Article, BlogPosting, NewsArticle" },
+
+      { type: "section", label: "Social sharing (Open Graph & Twitter)" },
+      { key: "og_title_en", label: "OG title (EN)", help: "Falls back to SEO title." },
+      { key: "og_title_fr", label: "OG title (FR)" },
+      { key: "og_description_en", label: "OG description (EN)", type: "textarea" },
+      { key: "og_description_fr", label: "OG description (FR)", type: "textarea" },
+      { key: "og_image", label: "OG image URL", type: "url", help: "1200×630 recommended. Falls back to cover image." },
+      { key: "twitter_card", label: "Twitter card", help: "summary or summary_large_image" },
     ]} />;
 }
 function PillarsAdmin() {
