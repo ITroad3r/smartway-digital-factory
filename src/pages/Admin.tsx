@@ -64,6 +64,16 @@ function SettingsEditor() {
     ["differentiator_fr", "Differentiator (FR)", true],
     ["team_culture_en", "Team & culture (EN)", true],
     ["team_culture_fr", "Team & culture (FR)", true],
+    // SEO defaults
+    ["site_name", "Site name (SEO)"],
+    ["twitter_handle", "Twitter handle (e.g. @smartway)"],
+    ["organization_name", "Organization name (JSON-LD)"],
+    ["organization_logo", "Organization logo URL (JSON-LD)"],
+    ["default_seo_title_en", "Default SEO title (EN)"],
+    ["default_seo_title_fr", "Default SEO title (FR)"],
+    ["default_seo_description_en", "Default meta description (EN)", true],
+    ["default_seo_description_fr", "Default meta description (FR)", true],
+    ["default_og_image", "Default Open Graph image URL"],
   ];
   const save = async () => {
     setBusy(true);
