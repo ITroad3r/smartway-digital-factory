@@ -153,18 +153,42 @@ function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }:
           <div className="bg-card rounded-2xl border border-border shadow-elev w-full max-w-3xl max-h-[90vh] overflow-y-auto p-8" onClick={(e) => e.stopPropagation()}>
             <h2 className="display-serif text-2xl mb-6">{editing.id ? "Edit" : "Create"}</h2>
             <div className="grid md:grid-cols-2 gap-4">
-              {fields.map((f) => (
-                <div key={f.key} className={f.type === "textarea" ? "md:col-span-2" : ""}>
-                  <label className="eyebrow block mb-2">{f.label}</label>
-                  {f.type === "textarea" ? (
-                    <textarea rows={4} value={editing[f.key] ?? ""} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value })} className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm" />
-                  ) : f.type === "bool" ? (
-                    <input type="checkbox" checked={!!editing[f.key]} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.checked })} />
-                  ) : (
-                    <input type={f.type === "number" ? "number" : "text"} value={editing[f.key] ?? ""} onChange={(e) => setEditing({ ...editing, [f.key]: f.type === "number" ? Number(e.target.value) : e.target.value })} className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm" />
-                  )}
-                </div>
-              ))}
+              {fields.map((f, idx) => {
+                if (f.type === "section") {
+                  return (
+                    <div key={`sec-${idx}`} className="md:col-span-2 mt-4 pt-4 border-t border-border">
+                      <p className="eyebrow text-foreground">{f.label}</p>
+                    </div>
+                  );
+                }
+                const isWide = f.type === "textarea" || f.type === "tags" || f.type === "url";
+                const val = editing[f.key];
+                return (
+                  <div key={f.key} className={isWide ? "md:col-span-2" : ""}>
+                    <label className="eyebrow block mb-2">{f.label}</label>
+                    {f.type === "textarea" ? (
+                      <textarea rows={4} value={val ?? ""} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value })} className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm" />
+                    ) : f.type === "bool" ? (
+                      <input type="checkbox" checked={!!val} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.checked })} />
+                    ) : f.type === "tags" ? (
+                      <input
+                        value={Array.isArray(val) ? val.join(", ") : (val ?? "")}
+                        onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })}
+                        placeholder="comma, separated, tags"
+                        className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm"
+                      />
+                    ) : (
+                      <input
+                        type={f.type === "number" ? "number" : f.type === "url" ? "url" : "text"}
+                        value={val ?? ""}
+                        onChange={(e) => setEditing({ ...editing, [f.key]: f.type === "number" ? Number(e.target.value) : e.target.value })}
+                        className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm"
+                      />
+                    )}
+                    {f.help && <p className="text-[11px] text-muted-foreground mt-1">{f.help}</p>}
+                  </div>
+                );
+              })}
             </div>
             <div className="flex gap-3 mt-6 justify-end">
               <button onClick={() => setEditing(null)} className="px-5 py-2.5 text-sm">Cancel</button>
