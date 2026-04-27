@@ -13,19 +13,71 @@ export default function BlogPost() {
     queryFn: async () => (await supabase.from("blog_posts").select("*").eq("slug", slug!).eq("published", true).maybeSingle()).data,
     enabled: !!slug,
   });
+  const { data: settings } = useQuery({
+    queryKey: ["site_settings_seo"],
+    queryFn: async () => (await supabase.from("site_settings").select("*").limit(1).maybeSingle()).data,
+  });
 
   if (!post) return <div className="container-editorial py-32 text-center text-muted-foreground">Loading…</div>;
 
+  const seoTitle = pick(post, "seo_title") || `${pick(post, "title")} — Smartway`;
+  const seoDescription = pick(post, "seo_description") || pick(post, "excerpt");
+  const ogTitle = pick(post, "og_title") || pick(post, "title");
+  const ogDescription = pick(post, "og_description") || seoDescription;
+  const h1 = pick(post, "h1") || pick(post, "title");
+  const h2 = pick(post, "h2");
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": post.structured_data_type || "Article",
+    headline: pick(post, "title"),
+    description: seoDescription,
+    image: post.og_image || post.cover_image || undefined,
+    datePublished: post.published_at,
+    dateModified: post.updated_at,
+    author: { "@type": "Person", name: post.author || settings?.organization_name || "Smartway" },
+    publisher: {
+      "@type": "Organization",
+      name: settings?.organization_name || "Smartway",
+      logo: settings?.organization_logo ? { "@type": "ImageObject", url: settings.organization_logo } : undefined,
+    },
+    keywords: post.tags?.join(", ") || post.seo_keywords || undefined,
+    mainEntityOfPage: { "@type": "WebPage", "@id": post.canonical_url || (typeof window !== "undefined" ? window.location.href : "") },
+  };
+
   return (
     <>
-      <Seo title={`${pick(post, "title")} — Smartway`} description={pick(post, "excerpt")} />
+      <Seo
+        title={seoTitle}
+        description={seoDescription}
+        keywords={post.seo_keywords || post.tags?.join(", ")}
+        canonical={post.canonical_url}
+        ogImage={post.og_image || post.cover_image}
+        ogTitle={ogTitle}
+        ogDescription={ogDescription}
+        ogType="article"
+        twitterCard={post.twitter_card || "summary_large_image"}
+        twitterHandle={settings?.twitter_handle}
+        robots={post.meta_robots || "index,follow"}
+        structuredData={structuredData}
+        siteName={settings?.site_name || "Smartway"}
+      />
       <article className="container-editorial py-20 max-w-3xl">
         <Link to="/blog" className="link-underline text-sm mb-8 inline-flex"><ArrowLeft className="h-4 w-4 mr-2" /> {t("nav.blog")}</Link>
         {post.category && <p className="eyebrow mt-6 mb-3">{post.category}</p>}
-        <h1 className="display-serif text-4xl md:text-6xl text-balance">{pick(post, "title")}</h1>
+        <h1 className="display-serif text-4xl md:text-6xl text-balance">{h1}</h1>
+        {h2 && <h2 className="display-serif text-2xl md:text-3xl text-muted-foreground mt-4">{h2}</h2>}
         <p className="mt-6 text-sm text-muted-foreground">
           {post.author} · {post.published_at && new Date(post.published_at).toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US", { year: "numeric", month: "long", day: "numeric" })}
+          {post.reading_time_minutes ? ` · ${post.reading_time_minutes} min read` : ""}
         </p>
+        {post.tags && post.tags.length > 0 && (
+          <div className="mt-4 flex flex-wrap gap-2">
+            {post.tags.map((tag: string) => (
+              <span key={tag} className="text-xs px-2.5 py-1 rounded-full bg-paper-soft border border-border text-muted-foreground">#{tag}</span>
+            ))}
+          </div>
+        )}
         <p className="mt-10 text-xl text-muted-foreground italic">{pick(post, "excerpt")}</p>
         <div className="mt-10 prose prose-lg max-w-none text-foreground leading-relaxed whitespace-pre-line">
           {pick(post, "content")}
