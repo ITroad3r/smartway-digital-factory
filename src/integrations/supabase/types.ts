@@ -47,6 +47,7 @@ export type Database = {
       blog_posts: {
         Row: {
           author: string | null
+          canonical_url: string | null
           category: string | null
           content_en: string | null
           content_fr: string | null
@@ -54,16 +55,37 @@ export type Database = {
           created_at: string
           excerpt_en: string | null
           excerpt_fr: string | null
+          focus_keyword: string | null
+          h1_en: string | null
+          h1_fr: string | null
+          h2_en: string | null
+          h2_fr: string | null
           id: string
+          meta_robots: string | null
+          og_description_en: string | null
+          og_description_fr: string | null
+          og_image: string | null
+          og_title_en: string | null
+          og_title_fr: string | null
           published: boolean
           published_at: string | null
+          reading_time_minutes: number | null
+          seo_description_en: string | null
+          seo_description_fr: string | null
+          seo_keywords: string | null
+          seo_title_en: string | null
+          seo_title_fr: string | null
           slug: string
+          structured_data_type: string | null
+          tags: string[] | null
           title_en: string
           title_fr: string
+          twitter_card: string | null
           updated_at: string
         }
         Insert: {
           author?: string | null
+          canonical_url?: string | null
           category?: string | null
           content_en?: string | null
           content_fr?: string | null
@@ -71,16 +93,37 @@ export type Database = {
           created_at?: string
           excerpt_en?: string | null
           excerpt_fr?: string | null
+          focus_keyword?: string | null
+          h1_en?: string | null
+          h1_fr?: string | null
+          h2_en?: string | null
+          h2_fr?: string | null
           id?: string
+          meta_robots?: string | null
+          og_description_en?: string | null
+          og_description_fr?: string | null
+          og_image?: string | null
+          og_title_en?: string | null
+          og_title_fr?: string | null
           published?: boolean
           published_at?: string | null
+          reading_time_minutes?: number | null
+          seo_description_en?: string | null
+          seo_description_fr?: string | null
+          seo_keywords?: string | null
+          seo_title_en?: string | null
+          seo_title_fr?: string | null
           slug: string
+          structured_data_type?: string | null
+          tags?: string[] | null
           title_en: string
           title_fr: string
+          twitter_card?: string | null
           updated_at?: string
         }
         Update: {
           author?: string | null
+          canonical_url?: string | null
           category?: string | null
           content_en?: string | null
           content_fr?: string | null
@@ -88,12 +131,32 @@ export type Database = {
           created_at?: string
           excerpt_en?: string | null
           excerpt_fr?: string | null
+          focus_keyword?: string | null
+          h1_en?: string | null
+          h1_fr?: string | null
+          h2_en?: string | null
+          h2_fr?: string | null
           id?: string
+          meta_robots?: string | null
+          og_description_en?: string | null
+          og_description_fr?: string | null
+          og_image?: string | null
+          og_title_en?: string | null
+          og_title_fr?: string | null
           published?: boolean
           published_at?: string | null
+          reading_time_minutes?: number | null
+          seo_description_en?: string | null
+          seo_description_fr?: string | null
+          seo_keywords?: string | null
+          seo_title_en?: string | null
+          seo_title_fr?: string | null
           slug?: string
+          structured_data_type?: string | null
+          tags?: string[] | null
           title_en?: string
           title_fr?: string
+          twitter_card?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -286,6 +349,11 @@ export type Database = {
           address_fr: string | null
           contact_email: string | null
           contact_phone: string | null
+          default_og_image: string | null
+          default_seo_description_en: string | null
+          default_seo_description_fr: string | null
+          default_seo_title_en: string | null
+          default_seo_title_fr: string | null
           differentiator_en: string | null
           differentiator_fr: string | null
           hero_headline_en: string | null
@@ -296,8 +364,12 @@ export type Database = {
           linkedin_url: string | null
           mission_en: string | null
           mission_fr: string | null
+          organization_logo: string | null
+          organization_name: string | null
+          site_name: string | null
           team_culture_en: string | null
           team_culture_fr: string | null
+          twitter_handle: string | null
           updated_at: string
           vision_en: string | null
           vision_fr: string | null
@@ -309,6 +381,11 @@ export type Database = {
           address_fr?: string | null
           contact_email?: string | null
           contact_phone?: string | null
+          default_og_image?: string | null
+          default_seo_description_en?: string | null
+          default_seo_description_fr?: string | null
+          default_seo_title_en?: string | null
+          default_seo_title_fr?: string | null
           differentiator_en?: string | null
           differentiator_fr?: string | null
           hero_headline_en?: string | null
@@ -319,8 +396,12 @@ export type Database = {
           linkedin_url?: string | null
           mission_en?: string | null
           mission_fr?: string | null
+          organization_logo?: string | null
+          organization_name?: string | null
+          site_name?: string | null
           team_culture_en?: string | null
           team_culture_fr?: string | null
+          twitter_handle?: string | null
           updated_at?: string
           vision_en?: string | null
           vision_fr?: string | null
@@ -332,6 +413,11 @@ export type Database = {
           address_fr?: string | null
           contact_email?: string | null
           contact_phone?: string | null
+          default_og_image?: string | null
+          default_seo_description_en?: string | null
+          default_seo_description_fr?: string | null
+          default_seo_title_en?: string | null
+          default_seo_title_fr?: string | null
           differentiator_en?: string | null
           differentiator_fr?: string | null
           hero_headline_en?: string | null
@@ -342,8 +428,12 @@ export type Database = {
           linkedin_url?: string | null
           mission_en?: string | null
           mission_fr?: string | null
+          organization_logo?: string | null
+          organization_name?: string | null
+          site_name?: string | null
           team_culture_en?: string | null
           team_culture_fr?: string | null
+          twitter_handle?: string | null
           updated_at?: string
           vision_en?: string | null
           vision_fr?: string | null
