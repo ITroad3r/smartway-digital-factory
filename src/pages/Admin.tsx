@@ -93,8 +93,12 @@ function SettingsEditor() {
 }
 
 // ---------- Generic CRUD list ----------
+type FieldDef =
+  | { key: string; label: string; type?: "text" | "textarea" | "number" | "bool" | "tags" | "url"; help?: string }
+  | { type: "section"; label: string; key?: string };
+
 function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }: {
-  title: string; table: string; columns: string[]; fields: { key: string; label: string; type?: "text" | "textarea" | "number" | "bool"; }[]; orderBy?: string;
+  title: string; table: string; columns: string[]; fields: FieldDef[]; orderBy?: string;
 }) {
   const [items, setItems] = useState<any[]>([]);
   const [editing, setEditing] = useState<any | null>(null);
