@@ -64,6 +64,16 @@ function SettingsEditor() {
     ["differentiator_fr", "Differentiator (FR)", true],
     ["team_culture_en", "Team & culture (EN)", true],
     ["team_culture_fr", "Team & culture (FR)", true],
+    // SEO defaults
+    ["site_name", "Site name (SEO)"],
+    ["twitter_handle", "Twitter handle (e.g. @smartway)"],
+    ["organization_name", "Organization name (JSON-LD)"],
+    ["organization_logo", "Organization logo URL (JSON-LD)"],
+    ["default_seo_title_en", "Default SEO title (EN)"],
+    ["default_seo_title_fr", "Default SEO title (FR)"],
+    ["default_seo_description_en", "Default meta description (EN)", true],
+    ["default_seo_description_fr", "Default meta description (FR)", true],
+    ["default_og_image", "Default Open Graph image URL"],
   ];
   const save = async () => {
     setBusy(true);
@@ -93,8 +103,12 @@ function SettingsEditor() {
 }
 
 // ---------- Generic CRUD list ----------
+type FieldDef =
+  | { key: string; label: string; type?: "text" | "textarea" | "number" | "bool" | "tags" | "url"; help?: string }
+  | { type: "section"; label: string; key?: string };
+
 function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }: {
-  title: string; table: string; columns: string[]; fields: { key: string; label: string; type?: "text" | "textarea" | "number" | "bool"; }[]; orderBy?: string;
+  title: string; table: string; columns: string[]; fields: FieldDef[]; orderBy?: string;
 }) {
   const [items, setItems] = useState<any[]>([]);
   const [editing, setEditing] = useState<any | null>(null);
@@ -149,18 +163,42 @@ function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }:
           <div className="bg-card rounded-2xl border border-border shadow-elev w-full max-w-3xl max-h-[90vh] overflow-y-auto p-8" onClick={(e) => e.stopPropagation()}>
             <h2 className="display-serif text-2xl mb-6">{editing.id ? "Edit" : "Create"}</h2>
             <div className="grid md:grid-cols-2 gap-4">
-              {fields.map((f) => (
-                <div key={f.key} className={f.type === "textarea" ? "md:col-span-2" : ""}>
-                  <label className="eyebrow block mb-2">{f.label}</label>
-                  {f.type === "textarea" ? (
-                    <textarea rows={4} value={editing[f.key] ?? ""} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value })} className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm" />
-                  ) : f.type === "bool" ? (
-                    <input type="checkbox" checked={!!editing[f.key]} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.checked })} />
-                  ) : (
-                    <input type={f.type === "number" ? "number" : "text"} value={editing[f.key] ?? ""} onChange={(e) => setEditing({ ...editing, [f.key]: f.type === "number" ? Number(e.target.value) : e.target.value })} className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm" />
-                  )}
-                </div>
-              ))}
+              {fields.map((f, idx) => {
+                if (f.type === "section") {
+                  return (
+                    <div key={`sec-${idx}`} className="md:col-span-2 mt-4 pt-4 border-t border-border">
+                      <p className="eyebrow text-foreground">{f.label}</p>
+                    </div>
+                  );
+                }
+                const isWide = f.type === "textarea" || f.type === "tags" || f.type === "url";
+                const val = editing[f.key];
+                return (
+                  <div key={f.key} className={isWide ? "md:col-span-2" : ""}>
+                    <label className="eyebrow block mb-2">{f.label}</label>
+                    {f.type === "textarea" ? (
+                      <textarea rows={4} value={val ?? ""} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value })} className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm" />
+                    ) : f.type === "bool" ? (
+                      <input type="checkbox" checked={!!val} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.checked })} />
+                    ) : f.type === "tags" ? (
+                      <input
+                        value={Array.isArray(val) ? val.join(", ") : (val ?? "")}
+                        onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value.split(",").map((s) => s.trim()).filter(Boolean) })}
+                        placeholder="comma, separated, tags"
+                        className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm"
+                      />
+                    ) : (
+                      <input
+                        type={f.type === "number" ? "number" : f.type === "url" ? "url" : "text"}
+                        value={val ?? ""}
+                        onChange={(e) => setEditing({ ...editing, [f.key]: f.type === "number" ? Number(e.target.value) : e.target.value })}
+                        className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm"
+                      />
+                    )}
+                    {f.help && <p className="text-[11px] text-muted-foreground mt-1">{f.help}</p>}
+                  </div>
+                );
+              })}
             </div>
             <div className="flex gap-3 mt-6 justify-end">
               <button onClick={() => setEditing(null)} className="px-5 py-2.5 text-sm">Cancel</button>
@@ -191,10 +229,45 @@ function ServicesAdmin() {
 function BlogAdmin() {
   return <GenericTable title="Blog posts" table="blog_posts" columns={["slug", "title_en", "category", "published"]} orderBy="created_at"
     fields={[
-      { key: "slug", label: "Slug" }, { key: "category", label: "Category" }, { key: "author", label: "Author" }, { key: "published", label: "Published", type: "bool" },
-      { key: "title_en", label: "Title (EN)" }, { key: "title_fr", label: "Title (FR)" },
-      { key: "excerpt_en", label: "Excerpt (EN)", type: "textarea" }, { key: "excerpt_fr", label: "Excerpt (FR)", type: "textarea" },
-      { key: "content_en", label: "Content (EN)", type: "textarea" }, { key: "content_fr", label: "Content (FR)", type: "textarea" },
+      { type: "section", label: "Basics" },
+      { key: "slug", label: "Slug", help: "URL identifier, e.g. my-post-title" },
+      { key: "category", label: "Category" },
+      { key: "author", label: "Author" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "cover_image", label: "Cover image URL", type: "url" },
+      { key: "reading_time_minutes", label: "Reading time (minutes)", type: "number" },
+
+      { type: "section", label: "Content" },
+      { key: "title_en", label: "Title (EN)" },
+      { key: "title_fr", label: "Title (FR)" },
+      { key: "h1_en", label: "H1 heading (EN)", help: "Optional. Falls back to title." },
+      { key: "h1_fr", label: "H1 heading (FR)" },
+      { key: "h2_en", label: "H2 subheading (EN)" },
+      { key: "h2_fr", label: "H2 subheading (FR)" },
+      { key: "excerpt_en", label: "Excerpt (EN)", type: "textarea" },
+      { key: "excerpt_fr", label: "Excerpt (FR)", type: "textarea" },
+      { key: "content_en", label: "Content (EN)", type: "textarea" },
+      { key: "content_fr", label: "Content (FR)", type: "textarea" },
+
+      { type: "section", label: "SEO — Search engines" },
+      { key: "seo_title_en", label: "SEO title (EN)", help: "Browser tab & Google. Aim < 60 chars." },
+      { key: "seo_title_fr", label: "SEO title (FR)" },
+      { key: "seo_description_en", label: "Meta description (EN)", type: "textarea", help: "Aim < 160 chars." },
+      { key: "seo_description_fr", label: "Meta description (FR)", type: "textarea" },
+      { key: "focus_keyword", label: "Focus keyword" },
+      { key: "seo_keywords", label: "Meta keywords", help: "Comma-separated" },
+      { key: "tags", label: "Tags", type: "tags", help: "Comma-separated. Used in JSON-LD & UI." },
+      { key: "canonical_url", label: "Canonical URL", type: "url", help: "Leave empty to use current URL." },
+      { key: "meta_robots", label: "Robots", help: "e.g. index,follow or noindex,nofollow" },
+      { key: "structured_data_type", label: "Schema.org type", help: "e.g. Article, BlogPosting, NewsArticle" },
+
+      { type: "section", label: "Social sharing (Open Graph & Twitter)" },
+      { key: "og_title_en", label: "OG title (EN)", help: "Falls back to SEO title." },
+      { key: "og_title_fr", label: "OG title (FR)" },
+      { key: "og_description_en", label: "OG description (EN)", type: "textarea" },
+      { key: "og_description_fr", label: "OG description (FR)", type: "textarea" },
+      { key: "og_image", label: "OG image URL", type: "url", help: "1200×630 recommended. Falls back to cover image." },
+      { key: "twitter_card", label: "Twitter card", help: "summary or summary_large_image" },
     ]} />;
 }
 function PillarsAdmin() {
