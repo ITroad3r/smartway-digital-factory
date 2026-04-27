@@ -40,13 +40,13 @@ export default function Header() {
             </Link>
             <span
               aria-hidden="true"
-              className="hidden sm:block h-6 md:h-7 w-px bg-border"
+              className="block h-6 md:h-7 w-px bg-border"
             />
             <a
               href="https://itroadgroup.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:flex flex-col leading-tight font-light tracking-[0.18em] text-[9px] md:text-[10px] uppercase text-muted-foreground transition-colors hover:text-accent"
+              className="flex flex-col leading-tight font-light tracking-[0.16em] sm:tracking-[0.18em] text-[8px] sm:text-[9px] md:text-[10px] uppercase text-muted-foreground transition-colors hover:text-accent"
               aria-label="ITRoad Group — opens in a new tab"
             >
               <span className="opacity-70">by</span>
