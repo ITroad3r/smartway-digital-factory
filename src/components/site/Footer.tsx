@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Linkedin, Mail, MapPin } from "lucide-react";
+import { Linkedin, Mail, MapPin, Facebook, Instagram, Youtube, Twitter, Music2 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
