@@ -54,6 +54,31 @@ export default function Footer() {
         </div>
       </div>
 
+      {/* Social icons row */}
+      {(settings?.linkedin_url || settings?.facebook_url || settings?.instagram_url || settings?.twitter_url || settings?.tiktok_url || settings?.youtube_url) && (
+        <div className="container-editorial pb-8 flex flex-wrap items-center gap-3">
+          {[
+            { url: settings?.linkedin_url, Icon: Linkedin, label: "LinkedIn" },
+            { url: settings?.facebook_url, Icon: Facebook, label: "Facebook" },
+            { url: settings?.instagram_url, Icon: Instagram, label: "Instagram" },
+            { url: settings?.twitter_url, Icon: Twitter, label: "X" },
+            { url: settings?.tiktok_url, Icon: Music2, label: "TikTok" },
+            { url: settings?.youtube_url, Icon: Youtube, label: "YouTube" },
+          ].filter(s => s.url).map(({ url, Icon, label }) => (
+            <a
+              key={label}
+              href={url!}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              className="h-10 w-10 rounded-full border border-border flex items-center justify-center text-foreground hover:bg-accent hover:text-accent-foreground hover:border-accent transition-colors"
+            >
+              <Icon className="h-4 w-4" />
+            </a>
+          ))}
+        </div>
+      )}
+
       <div className="container-editorial border-t border-border py-6 text-xs text-muted-foreground">
         <p>© {year} Smartway. {t("footer.rights")}</p>
       </div>
