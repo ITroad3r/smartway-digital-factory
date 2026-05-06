@@ -356,11 +356,13 @@ export type Database = {
           default_seo_title_fr: string | null
           differentiator_en: string | null
           differentiator_fr: string | null
+          facebook_url: string | null
           hero_headline_en: string | null
           hero_headline_fr: string | null
           hero_sub_en: string | null
           hero_sub_fr: string | null
           id: string
+          instagram_url: string | null
           linkedin_url: string | null
           mission_en: string | null
           mission_fr: string | null
@@ -369,10 +371,13 @@ export type Database = {
           site_name: string | null
           team_culture_en: string | null
           team_culture_fr: string | null
+          tiktok_url: string | null
           twitter_handle: string | null
+          twitter_url: string | null
           updated_at: string
           vision_en: string | null
           vision_fr: string | null
+          youtube_url: string | null
         }
         Insert: {
           about_story_en?: string | null
@@ -388,11 +393,13 @@ export type Database = {
           default_seo_title_fr?: string | null
           differentiator_en?: string | null
           differentiator_fr?: string | null
+          facebook_url?: string | null
           hero_headline_en?: string | null
           hero_headline_fr?: string | null
           hero_sub_en?: string | null
           hero_sub_fr?: string | null
           id?: string
+          instagram_url?: string | null
           linkedin_url?: string | null
           mission_en?: string | null
           mission_fr?: string | null
@@ -401,10 +408,13 @@ export type Database = {
           site_name?: string | null
           team_culture_en?: string | null
           team_culture_fr?: string | null
+          tiktok_url?: string | null
           twitter_handle?: string | null
+          twitter_url?: string | null
           updated_at?: string
           vision_en?: string | null
           vision_fr?: string | null
+          youtube_url?: string | null
         }
         Update: {
           about_story_en?: string | null
@@ -420,11 +430,13 @@ export type Database = {
           default_seo_title_fr?: string | null
           differentiator_en?: string | null
           differentiator_fr?: string | null
+          facebook_url?: string | null
           hero_headline_en?: string | null
           hero_headline_fr?: string | null
           hero_sub_en?: string | null
           hero_sub_fr?: string | null
           id?: string
+          instagram_url?: string | null
           linkedin_url?: string | null
           mission_en?: string | null
           mission_fr?: string | null
@@ -433,10 +445,13 @@ export type Database = {
           site_name?: string | null
           team_culture_en?: string | null
           team_culture_fr?: string | null
+          tiktok_url?: string | null
           twitter_handle?: string | null
+          twitter_url?: string | null
           updated_at?: string
           vision_en?: string | null
           vision_fr?: string | null
+          youtube_url?: string | null
         }
         Relationships: []
       }
