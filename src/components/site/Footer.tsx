@@ -44,12 +44,6 @@ export default function Footer() {
               <MapPin className="h-4 w-4 mt-0.5 text-accent" />
               <span>{pick(settings, "address") || t("footer.location")}</span>
             </li>
-            {settings?.linkedin_url && (
-              <li className="flex items-start gap-2">
-                <Linkedin className="h-4 w-4 mt-0.5 text-accent" />
-                <a href={settings.linkedin_url} target="_blank" rel="noopener" className="link-underline">LinkedIn</a>
-              </li>
-            )}
           </ul>
         </div>
       </div>
