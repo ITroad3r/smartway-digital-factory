@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { LogOut, Settings, Briefcase, FileText, Mail, Users, Star, BarChart3, Heart } from "lucide-react";
 import logo from "@/assets/logo-smartway.jpeg";
 import Seo from "@/components/site/Seo";
+import ImageUpload from "@/components/site/ImageUpload";
 
 function Sidebar() {
   const { signOut } = useAuth();
@@ -109,7 +110,7 @@ function SettingsEditor() {
 
 // ---------- Generic CRUD list ----------
 type FieldDef =
-  | { key: string; label: string; type?: "text" | "textarea" | "number" | "bool" | "tags" | "url"; help?: string }
+  | { key: string; label: string; type?: "text" | "textarea" | "number" | "bool" | "tags" | "url" | "image"; help?: string }
   | { type: "section"; label: string; key?: string };
 
 function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }: {
@@ -176,12 +177,14 @@ function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }:
                     </div>
                   );
                 }
-                const isWide = f.type === "textarea" || f.type === "tags" || f.type === "url";
+                const isWide = f.type === "textarea" || f.type === "tags" || f.type === "url" || f.type === "image";
                 const val = editing[f.key];
                 return (
                   <div key={f.key} className={isWide ? "md:col-span-2" : ""}>
                     <label className="eyebrow block mb-2">{f.label}</label>
-                    {f.type === "textarea" ? (
+                    {f.type === "image" ? (
+                      <ImageUpload value={val} onChange={(url) => setEditing({ ...editing, [f.key]: url })} />
+                    ) : f.type === "textarea" ? (
                       <textarea rows={4} value={val ?? ""} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value })} className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm" />
                     ) : f.type === "bool" ? (
                       <input type="checkbox" checked={!!val} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.checked })} />
@@ -239,7 +242,7 @@ function BlogAdmin() {
       { key: "category", label: "Category" },
       { key: "author", label: "Author" },
       { key: "published", label: "Published", type: "bool" },
-      { key: "cover_image", label: "Cover image URL", type: "url" },
+      { key: "cover_image", label: "Cover image", type: "image", help: "Shown on the blog list, the post page, and as the social share thumbnail when no OG image is set." },
       { key: "reading_time_minutes", label: "Reading time (minutes)", type: "number" },
 
       { type: "section", label: "Content" },
@@ -271,7 +274,7 @@ function BlogAdmin() {
       { key: "og_title_fr", label: "OG title (FR)" },
       { key: "og_description_en", label: "OG description (EN)", type: "textarea" },
       { key: "og_description_fr", label: "OG description (FR)", type: "textarea" },
-      { key: "og_image", label: "OG image URL", type: "url", help: "1200×630 recommended. Falls back to cover image." },
+      { key: "og_image", label: "Social share image (Open Graph)", type: "image", help: "1200×630 recommended. Falls back to cover image if empty." },
       { key: "twitter_card", label: "Twitter card", help: "summary or summary_large_image" },
     ]} />;
 }
