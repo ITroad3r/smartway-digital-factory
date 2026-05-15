@@ -64,6 +64,13 @@ export default function BlogPost() {
       />
       <article className="container-editorial py-20 max-w-3xl">
         <Link to="/blog" className="link-underline text-sm mb-8 inline-flex"><ArrowLeft className="h-4 w-4 mr-2" /> {t("nav.blog")}</Link>
+        {post.cover_image && (
+          <img
+            src={post.cover_image}
+            alt={pick(post, "title")}
+            className="aspect-[1200/630] w-full object-cover rounded-xl border border-border my-8"
+          />
+        )}
         {post.category && <p className="eyebrow mt-6 mb-3">{post.category}</p>}
         <h1 className="display-serif text-4xl md:text-6xl text-balance">{h1}</h1>
         {h2 && <h2 className="display-serif text-2xl md:text-3xl text-muted-foreground mt-4">{h2}</h2>}
