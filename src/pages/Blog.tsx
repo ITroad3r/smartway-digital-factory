@@ -27,12 +27,24 @@ export default function Blog() {
         ) : (
           <div className="divide-y divide-border border-y border-border">
             {posts.map((p: any) => (
-              <Link key={p.id} to={`/blog/${p.slug}`} className="group grid lg:grid-cols-12 gap-6 py-10 items-baseline hover:bg-paper-soft transition-colors px-2 -mx-2 rounded-lg">
+              <Link key={p.id} to={`/blog/${p.slug}`} className="group grid lg:grid-cols-12 gap-6 py-10 items-center hover:bg-paper-soft transition-colors px-2 -mx-2 rounded-lg">
+                <div className="lg:col-span-3">
+                  {p.cover_image ? (
+                    <img
+                      src={p.cover_image}
+                      alt={pick(p, "title")}
+                      loading="lazy"
+                      className="aspect-[1200/630] w-full object-cover rounded-lg border border-border"
+                    />
+                  ) : (
+                    <div className="aspect-[1200/630] w-full rounded-lg bg-paper-soft border border-border" />
+                  )}
+                </div>
                 <div className="lg:col-span-2 text-xs text-muted-foreground">
                   {p.published_at && new Date(p.published_at).toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US", { year: "numeric", month: "short", day: "numeric" })}
                   {p.category && <p className="eyebrow mt-1">{p.category}</p>}
                 </div>
-                <div className="lg:col-span-7">
+                <div className="lg:col-span-4">
                   <h2 className="display-serif text-2xl md:text-3xl group-hover:text-accent transition-colors">{pick(p, "title")}</h2>
                 </div>
                 <div className="lg:col-span-3 text-sm text-muted-foreground">{pick(p, "excerpt")}</div>

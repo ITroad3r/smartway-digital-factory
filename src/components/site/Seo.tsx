@@ -69,7 +69,12 @@ export default function Seo({
     setMeta('meta[property="og:type"]', "property", "og:type", ogType);
     setMeta('meta[property="og:url"]', "property", "og:url", canonicalHref);
     setMeta('meta[property="og:site_name"]', "property", "og:site_name", siteName);
-    if (ogImage) setMeta('meta[property="og:image"]', "property", "og:image", ogImage);
+    if (ogImage) {
+      setMeta('meta[property="og:image"]', "property", "og:image", ogImage);
+      setMeta('meta[property="og:image:width"]', "property", "og:image:width", "1200");
+      setMeta('meta[property="og:image:height"]', "property", "og:image:height", "630");
+      setMeta('meta[property="og:image:alt"]', "property", "og:image:alt", ogTitle || title);
+    }
 
     // Twitter
     setMeta('meta[name="twitter:card"]', "name", "twitter:card", twitterCard);
