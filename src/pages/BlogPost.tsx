@@ -20,12 +20,14 @@ export default function BlogPost() {
 
   if (!post) return <div className="container-editorial py-32 text-center text-muted-foreground">Loading…</div>;
 
-  const seoTitle = pick(post, "seo_title") || `${pick(post, "title")} — Smartway`;
-  const seoDescription = pick(post, "seo_description") || pick(post, "excerpt");
-  const ogTitle = pick(post, "og_title") || pick(post, "title");
-  const ogDescription = pick(post, "og_description") || seoDescription;
-  const h1 = pick(post, "h1") || pick(post, "title");
-  const h2 = pick(post, "h2");
+  const stripHtml = (s?: string | null) => (s ?? "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+  const titlePlain = stripHtml(pick(post, "title"));
+  const seoTitle = stripHtml(pick(post, "seo_title")) || `${titlePlain} — Smartway`;
+  const seoDescription = stripHtml(pick(post, "seo_description")) || stripHtml(pick(post, "excerpt"));
+  const ogTitle = stripHtml(pick(post, "og_title")) || titlePlain;
+  const ogDescription = stripHtml(pick(post, "og_description")) || seoDescription;
+  const h1Html = pick(post, "h1") || pick(post, "title");
+  const h2Html = pick(post, "h2");
 
   const structuredData = {
     "@context": "https://schema.org",
