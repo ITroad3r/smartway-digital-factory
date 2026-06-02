@@ -29,12 +29,13 @@ export default function Blog() {
             {posts.map((p: any) => {
               const titleHtml = pick(p, "title") || "";
               const titleAlt = titleHtml.replace(/<[^>]*>/g, "").trim();
+              const cover = (lang === "fr" ? p.cover_image_fr : p.cover_image) || p.cover_image;
               return (
               <Link key={p.id} to={`/blog/${p.slug}`} className="group grid lg:grid-cols-12 gap-6 py-10 items-center hover:bg-paper-soft transition-colors px-2 -mx-2 rounded-lg">
                 <div className="lg:col-span-3">
-                  {p.cover_image ? (
+                  {cover ? (
                     <img
-                      src={p.cover_image}
+                      src={cover}
                       alt={titleAlt}
                       loading="lazy"
                       className="aspect-[1200/630] w-full object-cover rounded-lg border border-border"
