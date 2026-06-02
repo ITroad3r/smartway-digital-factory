@@ -86,9 +86,10 @@ export default function BlogPost() {
           </div>
         )}
         <p className="mt-10 text-xl text-muted-foreground italic">{pick(post, "excerpt")}</p>
-        <div className="mt-10 prose prose-lg max-w-none text-foreground leading-relaxed whitespace-pre-line">
-          {pick(post, "content")}
-        </div>
+        <div
+          className="mt-10 prose prose-lg max-w-none text-foreground leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: pick(post, "content") || "" }}
+        />
       </article>
     </>
   );
