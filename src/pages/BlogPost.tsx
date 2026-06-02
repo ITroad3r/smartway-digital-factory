@@ -32,7 +32,7 @@ export default function BlogPost() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": post.structured_data_type || "Article",
-    headline: pick(post, "title"),
+    headline: titlePlain,
     description: seoDescription,
     image: post.og_image || post.cover_image || undefined,
     datePublished: post.published_at,
