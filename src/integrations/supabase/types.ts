@@ -52,6 +52,7 @@ export type Database = {
           content_en: string | null
           content_fr: string | null
           cover_image: string | null
+          cover_image_fr: string | null
           created_at: string
           excerpt_en: string | null
           excerpt_fr: string | null
@@ -90,6 +91,7 @@ export type Database = {
           content_en?: string | null
           content_fr?: string | null
           cover_image?: string | null
+          cover_image_fr?: string | null
           created_at?: string
           excerpt_en?: string | null
           excerpt_fr?: string | null
@@ -128,6 +130,7 @@ export type Database = {
           content_en?: string | null
           content_fr?: string | null
           cover_image?: string | null
+          cover_image_fr?: string | null
           created_at?: string
           excerpt_en?: string | null
           excerpt_fr?: string | null

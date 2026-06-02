@@ -245,7 +245,8 @@ function BlogAdmin() {
       { key: "category", label: "Category" },
       { key: "author", label: "Author" },
       { key: "published", label: "Published", type: "bool" },
-      { key: "cover_image", label: "Cover image", type: "image", help: "Shown on the blog list, the post page, and as the social share thumbnail when no OG image is set." },
+      { key: "cover_image", label: "Cover image (EN)", type: "image", help: "Shown on the English blog list & post page, and as the social share thumbnail when no OG image is set." },
+      { key: "cover_image_fr", label: "Cover image (FR)", type: "image", help: "Shown on the French blog list & post page. Falls back to the English cover if empty." },
       { key: "reading_time_minutes", label: "Reading time (minutes)", type: "number" },
 
       { type: "section", label: "Content" },

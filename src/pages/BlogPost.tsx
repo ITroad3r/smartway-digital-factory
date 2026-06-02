@@ -28,13 +28,14 @@ export default function BlogPost() {
   const ogDescription = stripHtml(pick(post, "og_description")) || seoDescription;
   const h1Html = pick(post, "h1") || pick(post, "title");
   const h2Html = pick(post, "h2");
+  const cover = (lang === "fr" ? (post as any).cover_image_fr : post.cover_image) || post.cover_image;
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": post.structured_data_type || "Article",
     headline: titlePlain,
     description: seoDescription,
-    image: post.og_image || post.cover_image || undefined,
+    image: post.og_image || cover || undefined,
     datePublished: post.published_at,
     dateModified: post.updated_at,
     author: { "@type": "Person", name: post.author || settings?.organization_name || "Smartway" },
@@ -54,7 +55,7 @@ export default function BlogPost() {
         description={seoDescription}
         keywords={post.seo_keywords || post.tags?.join(", ")}
         canonical={post.canonical_url}
-        ogImage={post.og_image || post.cover_image}
+        ogImage={post.og_image || cover}
         ogTitle={ogTitle}
         ogDescription={ogDescription}
         ogType="article"
@@ -66,9 +67,9 @@ export default function BlogPost() {
       />
       <article className="container-editorial py-20 max-w-3xl">
         <Link to="/blog" className="link-underline text-sm mb-8 inline-flex"><ArrowLeft className="h-4 w-4 mr-2" /> {t("nav.blog")}</Link>
-        {post.cover_image && (
+        {cover && (
           <img
-            src={post.cover_image}
+            src={cover}
             alt={titlePlain}
             className="aspect-[1200/630] w-full object-cover rounded-xl border border-border my-8"
           />
