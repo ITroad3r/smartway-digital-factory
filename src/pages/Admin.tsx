@@ -110,7 +110,7 @@ function SettingsEditor() {
 
 // ---------- Generic CRUD list ----------
 type FieldDef =
-  | { key: string; label: string; type?: "text" | "textarea" | "number" | "bool" | "tags" | "url" | "image"; help?: string }
+  | { key: string; label: string; type?: "text" | "textarea" | "richtext" | "number" | "bool" | "tags" | "url" | "image"; help?: string }
   | { type: "section"; label: string; key?: string };
 
 function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }: {
@@ -177,13 +177,15 @@ function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }:
                     </div>
                   );
                 }
-                const isWide = f.type === "textarea" || f.type === "tags" || f.type === "url" || f.type === "image";
+                const isWide = f.type === "textarea" || f.type === "richtext" || f.type === "tags" || f.type === "url" || f.type === "image";
                 const val = editing[f.key];
                 return (
                   <div key={f.key} className={isWide ? "md:col-span-2" : ""}>
                     <label className="eyebrow block mb-2">{f.label}</label>
                     {f.type === "image" ? (
                       <ImageUpload value={val} onChange={(url) => setEditing({ ...editing, [f.key]: url })} />
+                    ) : f.type === "richtext" ? (
+                      <RichTextEditor value={val ?? ""} onChange={(html) => setEditing({ ...editing, [f.key]: html })} />
                     ) : f.type === "textarea" ? (
                       <textarea rows={4} value={val ?? ""} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value })} className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm" />
                     ) : f.type === "bool" ? (
@@ -254,8 +256,8 @@ function BlogAdmin() {
       { key: "h2_fr", label: "H2 subheading (FR)" },
       { key: "excerpt_en", label: "Excerpt (EN)", type: "textarea" },
       { key: "excerpt_fr", label: "Excerpt (FR)", type: "textarea" },
-      { key: "content_en", label: "Content (EN)", type: "textarea" },
-      { key: "content_fr", label: "Content (FR)", type: "textarea" },
+      { key: "content_en", label: "Content (EN)", type: "richtext" },
+      { key: "content_fr", label: "Content (FR)", type: "richtext" },
 
       { type: "section", label: "SEO — Search engines" },
       { key: "seo_title_en", label: "SEO title (EN)", help: "Browser tab & Google. Aim < 60 chars." },
