@@ -26,13 +26,16 @@ export default function Blog() {
           <p className="text-muted-foreground py-12">{t("blog.empty")}</p>
         ) : (
           <div className="divide-y divide-border border-y border-border">
-            {posts.map((p: any) => (
+            {posts.map((p: any) => {
+              const titleHtml = pick(p, "title") || "";
+              const titleAlt = titleHtml.replace(/<[^>]*>/g, "").trim();
+              return (
               <Link key={p.id} to={`/blog/${p.slug}`} className="group grid lg:grid-cols-12 gap-6 py-10 items-center hover:bg-paper-soft transition-colors px-2 -mx-2 rounded-lg">
                 <div className="lg:col-span-3">
                   {p.cover_image ? (
                     <img
                       src={p.cover_image}
-                      alt={pick(p, "title")}
+                      alt={titleAlt}
                       loading="lazy"
                       className="aspect-[1200/630] w-full object-cover rounded-lg border border-border"
                     />
@@ -45,11 +48,12 @@ export default function Blog() {
                   {p.category && <p className="eyebrow mt-1">{p.category}</p>}
                 </div>
                 <div className="lg:col-span-4">
-                  <h2 className="display-serif text-2xl md:text-3xl group-hover:text-accent transition-colors">{pick(p, "title")}</h2>
+                  <h2 className="display-serif text-2xl md:text-3xl group-hover:text-accent transition-colors [&_*]:inline" dangerouslySetInnerHTML={{ __html: titleHtml }} />
                 </div>
                 <div className="lg:col-span-3 text-sm text-muted-foreground">{pick(p, "excerpt")}</div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>
