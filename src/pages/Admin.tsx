@@ -7,6 +7,7 @@ import { LogOut, Settings, Briefcase, FileText, Mail, Users, Star, BarChart3, He
 import logo from "@/assets/logo-smartway.jpeg";
 import Seo from "@/components/site/Seo";
 import ImageUpload from "@/components/site/ImageUpload";
+import RichTextEditor from "@/components/site/RichTextEditor";
 
 function Sidebar() {
   const { signOut } = useAuth();
