@@ -20,17 +20,19 @@ export default function BlogPost() {
 
   if (!post) return <div className="container-editorial py-32 text-center text-muted-foreground">Loading…</div>;
 
-  const seoTitle = pick(post, "seo_title") || `${pick(post, "title")} — Smartway`;
-  const seoDescription = pick(post, "seo_description") || pick(post, "excerpt");
-  const ogTitle = pick(post, "og_title") || pick(post, "title");
-  const ogDescription = pick(post, "og_description") || seoDescription;
-  const h1 = pick(post, "h1") || pick(post, "title");
-  const h2 = pick(post, "h2");
+  const stripHtml = (s?: string | null) => (s ?? "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
+  const titlePlain = stripHtml(pick(post, "title"));
+  const seoTitle = stripHtml(pick(post, "seo_title")) || `${titlePlain} — Smartway`;
+  const seoDescription = stripHtml(pick(post, "seo_description")) || stripHtml(pick(post, "excerpt"));
+  const ogTitle = stripHtml(pick(post, "og_title")) || titlePlain;
+  const ogDescription = stripHtml(pick(post, "og_description")) || seoDescription;
+  const h1Html = pick(post, "h1") || pick(post, "title");
+  const h2Html = pick(post, "h2");
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": post.structured_data_type || "Article",
-    headline: pick(post, "title"),
+    headline: titlePlain,
     description: seoDescription,
     image: post.og_image || post.cover_image || undefined,
     datePublished: post.published_at,
@@ -67,13 +69,13 @@ export default function BlogPost() {
         {post.cover_image && (
           <img
             src={post.cover_image}
-            alt={pick(post, "title")}
+            alt={titlePlain}
             className="aspect-[1200/630] w-full object-cover rounded-xl border border-border my-8"
           />
         )}
         {post.category && <p className="eyebrow mt-6 mb-3">{post.category}</p>}
-        <h1 className="display-serif text-4xl md:text-6xl text-balance">{h1}</h1>
-        {h2 && <h2 className="display-serif text-2xl md:text-3xl text-muted-foreground mt-4">{h2}</h2>}
+        <h1 className="display-serif text-4xl md:text-6xl text-balance [&_*]:inline" dangerouslySetInnerHTML={{ __html: h1Html || "" }} />
+        {h2Html && <h2 className="display-serif text-2xl md:text-3xl text-muted-foreground mt-4 [&_*]:inline" dangerouslySetInnerHTML={{ __html: h2Html }} />}
         <p className="mt-6 text-sm text-muted-foreground">
           {post.author} · {post.published_at && new Date(post.published_at).toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US", { year: "numeric", month: "long", day: "numeric" })}
           {post.reading_time_minutes ? ` · ${post.reading_time_minutes} min read` : ""}
