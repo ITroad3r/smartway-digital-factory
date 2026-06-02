@@ -69,13 +69,13 @@ export default function BlogPost() {
         {post.cover_image && (
           <img
             src={post.cover_image}
-            alt={pick(post, "title")}
+            alt={titlePlain}
             className="aspect-[1200/630] w-full object-cover rounded-xl border border-border my-8"
           />
         )}
         {post.category && <p className="eyebrow mt-6 mb-3">{post.category}</p>}
-        <h1 className="display-serif text-4xl md:text-6xl text-balance">{h1}</h1>
-        {h2 && <h2 className="display-serif text-2xl md:text-3xl text-muted-foreground mt-4">{h2}</h2>}
+        <h1 className="display-serif text-4xl md:text-6xl text-balance [&_*]:inline" dangerouslySetInnerHTML={{ __html: h1Html || "" }} />
+        {h2Html && <h2 className="display-serif text-2xl md:text-3xl text-muted-foreground mt-4 [&_*]:inline" dangerouslySetInnerHTML={{ __html: h2Html }} />}
         <p className="mt-6 text-sm text-muted-foreground">
           {post.author} · {post.published_at && new Date(post.published_at).toLocaleDateString(lang === "fr" ? "fr-FR" : "en-US", { year: "numeric", month: "long", day: "numeric" })}
           {post.reading_time_minutes ? ` · ${post.reading_time_minutes} min read` : ""}
