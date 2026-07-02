@@ -67,13 +67,21 @@ export default function BlogPost() {
     mainEntityOfPage: { "@type": "WebPage", "@id": post.canonical_url || (typeof window !== "undefined" ? window.location.href : "") },
   };
 
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://smartways.ma";
+  const canonicalHref = post.canonical_url || `${origin}/blog/${effectiveLang}/${post.slug}`;
+  const alternates = [
+    { hreflang: "en", href: `${origin}/blog/en/${post.slug}` },
+    { hreflang: "fr", href: `${origin}/blog/fr/${post.slug}` },
+    { hreflang: "x-default", href: `${origin}/blog/en/${post.slug}` },
+  ];
+
   return (
     <>
       <Seo
         title={seoTitle}
         description={seoDescription}
         keywords={post.seo_keywords || post.tags?.join(", ")}
-        canonical={post.canonical_url}
+        canonical={canonicalHref}
         ogImage={post.og_image || cover}
         ogTitle={ogTitle}
         ogDescription={ogDescription}
@@ -83,6 +91,7 @@ export default function BlogPost() {
         robots={post.meta_robots || "index,follow"}
         structuredData={structuredData}
         siteName={settings?.site_name || "Smartway"}
+        alternates={alternates}
       />
       <article className="container-editorial py-20 max-w-3xl">
         <Link to="/blog" className="link-underline text-sm mb-8 inline-flex"><ArrowLeft className="h-4 w-4 mr-2" /> {t("nav.blog")}</Link>
