@@ -203,7 +203,11 @@ function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }:
                     ) : f.type === "richtext" ? (
                       <RichTextEditor value={val ?? ""} onChange={(html) => setEditing({ ...editing, [f.key]: html })} />
                     ) : f.type === "textarea" ? (
-                      <textarea rows={4} value={val ?? ""} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value })} className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm" />
+                      <textarea rows={4}
+                        value={typeof val === "string" ? val : val != null ? JSON.stringify(val, null, 2) : ""}
+                        onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value })}
+                        className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm font-mono" />
+
                     ) : f.type === "bool" ? (
                       <input type="checkbox" checked={!!val} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.checked })} />
                     ) : f.type === "tags" ? (
