@@ -14,6 +14,7 @@ interface Props {
   robots?: string;
   structuredData?: Record<string, any> | Array<Record<string, any>>;
   siteName?: string;
+  alternates?: Array<{ hreflang: string; href: string }>;
 }
 
 const setMeta = (selector: string, attrName: string, attrValue: string, content: string) => {
