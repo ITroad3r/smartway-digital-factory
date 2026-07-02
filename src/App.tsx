@@ -49,6 +49,7 @@ const App = () => (
               <Route path="/faq" element={wrap(<Faq />)} />
               <Route path="/legal/:slug" element={wrap(<LegalPage />)} />
               <Route path="/blog" element={wrap(<Blog />)} />
+              <Route path="/blog/:lang/:slug" element={wrap(<BlogPost />)} />
               <Route path="/blog/:slug" element={wrap(<BlogPost />)} />
               <Route path="/contact" element={wrap(<Contact />)} />
               <Route path="/auth" element={<Auth />} />
