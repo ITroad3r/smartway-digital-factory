@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Linkedin, Mail, MapPin, Facebook, Instagram, Youtube, Twitter, Music2, Phone } from "lucide-react";
+import { Linkedin, Mail, MapPin, Facebook, Instagram, Youtube, Twitter, Music2 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useSiteSettings } from "@/hooks/useSiteSettings";
 
@@ -35,12 +35,6 @@ export default function Footer() {
               <li className="flex items-start gap-2">
                 <Mail className="h-4 w-4 mt-0.5 text-accent" />
                 <a href={`mailto:${settings.contact_email}`} className="link-underline">{settings.contact_email}</a>
-              </li>
-            )}
-            {settings?.contact_phone && (
-              <li className="flex items-start gap-2">
-                <Phone className="h-4 w-4 mt-0.5 text-accent" />
-                <a href={`tel:${settings.contact_phone}`} className="link-underline">{settings.contact_phone}</a>
               </li>
             )}
             <li className="flex items-start gap-2">
