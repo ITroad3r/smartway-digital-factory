@@ -132,6 +132,16 @@ function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }:
 
   const save = async () => {
     const { id, created_at, updated_at, ...rest } = editing;
+    // Auto-parse JSON strings (for JSONB columns edited as textarea)
+    for (const k of Object.keys(rest)) {
+      const v = rest[k];
+      if (typeof v === "string") {
+        const trimmed = v.trim();
+        if (trimmed.startsWith("[") || trimmed.startsWith("{")) {
+          try { rest[k] = JSON.parse(trimmed); } catch { /* leave as string */ }
+        }
+      }
+    }
     let res;
     if (id) res = await supabase.from(table as any).update(rest).eq("id", id);
     else res = await supabase.from(table as any).insert(rest);
