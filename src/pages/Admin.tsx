@@ -355,6 +355,99 @@ function NewsletterAdmin() {
   );
 }
 
+
+// ---------- New content admins ----------
+function IndustriesAdmin() {
+  return <GenericTable title="Industries" table="industries" columns={["sort_order", "slug", "title_en", "published"]}
+    fields={[
+      { type: "section", label: "Basics" },
+      { key: "slug", label: "Slug" },
+      { key: "sort_order", label: "Sort", type: "number" },
+      { key: "icon", label: "Icon (lucide name)", help: "e.g. Landmark, Factory, Building2" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "cover_image", label: "Cover image", type: "image" },
+      { type: "section", label: "Content" },
+      { key: "title_en", label: "Title (EN)" }, { key: "title_fr", label: "Title (FR)" },
+      { key: "tagline_en", label: "Tagline (EN)", type: "textarea" }, { key: "tagline_fr", label: "Tagline (FR)", type: "textarea" },
+      { key: "description_en", label: "Description (EN)", type: "textarea" }, { key: "description_fr", label: "Description (FR)", type: "textarea" },
+      { key: "challenges_en", label: "Challenges (EN) — JSON array of strings", type: "textarea", help: '["Legacy systems","Compliance"]' },
+      { key: "challenges_fr", label: "Challenges (FR) — JSON array of strings", type: "textarea" },
+      { key: "solutions_en", label: "Solutions (EN) — JSON array of strings", type: "textarea" },
+      { key: "solutions_fr", label: "Solutions (FR) — JSON array of strings", type: "textarea" },
+      { type: "section", label: "SEO" },
+      { key: "seo_title_en", label: "SEO title (EN)" }, { key: "seo_title_fr", label: "SEO title (FR)" },
+      { key: "seo_description_en", label: "SEO description (EN)", type: "textarea" }, { key: "seo_description_fr", label: "SEO description (FR)", type: "textarea" },
+      { key: "seo_keywords", label: "Keywords" },
+    ]} />;
+}
+
+function CasesAdmin() {
+  return <GenericTable title="Case Studies" table="case_studies" columns={["sort_order", "slug", "title_en", "published"]}
+    fields={[
+      { type: "section", label: "Basics" },
+      { key: "slug", label: "Slug" }, { key: "sort_order", label: "Sort", type: "number" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "client_name", label: "Client name" }, { key: "industry", label: "Industry" },
+      { key: "services", label: "Services", type: "tags", help: "e.g. Cloud, AI" },
+      { key: "cover_image", label: "Cover image", type: "image" },
+      { type: "section", label: "Content" },
+      { key: "title_en", label: "Title (EN)" }, { key: "title_fr", label: "Title (FR)" },
+      { key: "summary_en", label: "Summary (EN)", type: "textarea" }, { key: "summary_fr", label: "Summary (FR)", type: "textarea" },
+      { key: "challenge_en", label: "Challenge (EN)", type: "textarea" }, { key: "challenge_fr", label: "Challenge (FR)", type: "textarea" },
+      { key: "solution_en", label: "Solution (EN)", type: "textarea" }, { key: "solution_fr", label: "Solution (FR)", type: "textarea" },
+      { key: "results_en", label: "Results (EN) — JSON array of strings", type: "textarea" },
+      { key: "results_fr", label: "Results (FR) — JSON array of strings", type: "textarea" },
+      { key: "metrics", label: "Metrics — JSON array of {label,value}", type: "textarea", help: '[{"label":"Downtime","value":"-45%"}]' },
+      { type: "section", label: "SEO" },
+      { key: "seo_title_en", label: "SEO title (EN)" }, { key: "seo_title_fr", label: "SEO title (FR)" },
+      { key: "seo_description_en", label: "SEO description (EN)", type: "textarea" }, { key: "seo_description_fr", label: "SEO description (FR)", type: "textarea" },
+    ]} />;
+}
+
+function ResourcesAdmin() {
+  return <GenericTable title="Resources" table="resources" columns={["sort_order", "slug", "resource_type", "title_en"]}
+    fields={[
+      { key: "slug", label: "Slug" }, { key: "sort_order", label: "Sort", type: "number" },
+      { key: "resource_type", label: "Type", help: "guide | whitepaper | checklist | video | ebook" },
+      { key: "category", label: "Category" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "cover_image", label: "Cover image", type: "image" },
+      { key: "download_url", label: "Download URL", type: "url" },
+      { key: "external_url", label: "External URL", type: "url" },
+      { key: "title_en", label: "Title (EN)" }, { key: "title_fr", label: "Title (FR)" },
+      { key: "description_en", label: "Description (EN)", type: "textarea" }, { key: "description_fr", label: "Description (FR)", type: "textarea" },
+      { key: "cta_label_en", label: "CTA label (EN)" }, { key: "cta_label_fr", label: "CTA label (FR)" },
+      { key: "seo_title_en", label: "SEO title (EN)" }, { key: "seo_title_fr", label: "SEO title (FR)" },
+      { key: "seo_description_en", label: "SEO description (EN)", type: "textarea" }, { key: "seo_description_fr", label: "SEO description (FR)", type: "textarea" },
+    ]} />;
+}
+
+function FaqsAdmin() {
+  return <GenericTable title="FAQs" table="faqs" columns={["sort_order", "category", "question_en", "published"]}
+    fields={[
+      { key: "sort_order", label: "Sort", type: "number" },
+      { key: "category", label: "Category", help: "general, ai, cloud, security, pricing…" },
+      { key: "page_scope", label: "Page scope", help: "general, services, ai, cloud, contact…" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "question_en", label: "Question (EN)" }, { key: "question_fr", label: "Question (FR)" },
+      { key: "answer_en", label: "Answer (EN)", type: "richtext" }, { key: "answer_fr", label: "Answer (FR)", type: "richtext" },
+    ]} />;
+}
+
+function LegalAdmin() {
+  return <GenericTable title="Legal pages" table="legal_pages" columns={["sort_order", "slug", "title_en", "published"]}
+    fields={[
+      { key: "slug", label: "Slug", help: "e.g. privacy, terms, cookies" },
+      { key: "sort_order", label: "Sort", type: "number" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "effective_date", label: "Effective date (YYYY-MM-DD)" },
+      { key: "title_en", label: "Title (EN)" }, { key: "title_fr", label: "Title (FR)" },
+      { key: "content_en", label: "Content (EN)", type: "richtext" }, { key: "content_fr", label: "Content (FR)", type: "richtext" },
+      { key: "seo_title_en", label: "SEO title (EN)" }, { key: "seo_title_fr", label: "SEO title (FR)" },
+      { key: "seo_description_en", label: "SEO description (EN)", type: "textarea" }, { key: "seo_description_fr", label: "SEO description (FR)", type: "textarea" },
+    ]} />;
+}
+
 export default function Admin() {
   const { user, isAdmin, loading } = useAuth();
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading…</div>;
@@ -362,13 +455,18 @@ export default function Admin() {
   if (!isAdmin) return <Navigate to="/auth" replace />;
   return (
     <>
-      <Seo title="Admin — Smartway" />
+      <Seo title="Admin — Smartway" robots="noindex,nofollow" />
       <div className="flex min-h-screen bg-paper">
         <Sidebar />
         <main className="flex-1 p-10 max-w-5xl">
           <Routes>
             <Route index element={<SettingsEditor />} />
             <Route path="services" element={<ServicesAdmin />} />
+            <Route path="industries" element={<IndustriesAdmin />} />
+            <Route path="cases" element={<CasesAdmin />} />
+            <Route path="resources" element={<ResourcesAdmin />} />
+            <Route path="faqs" element={<FaqsAdmin />} />
+            <Route path="legal" element={<LegalAdmin />} />
             <Route path="blog" element={<BlogAdmin />} />
             <Route path="pillars" element={<PillarsAdmin />} />
             <Route path="stats" element={<StatsAdmin />} />
@@ -380,3 +478,4 @@ export default function Admin() {
     </>
   );
 }
+
