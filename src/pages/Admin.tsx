@@ -3,7 +3,7 @@ import { Link, useNavigate, Navigate, Routes, Route } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { LogOut, Settings, Briefcase, FileText, Mail, Users, Star, BarChart3, Heart } from "lucide-react";
+import { LogOut, Settings, Briefcase, FileText, Mail, Users, Star, BarChart3, Building2, Trophy, BookOpen, HelpCircle, Scale } from "lucide-react";
 import logo from "@/assets/logo-smartway.jpeg";
 import Seo from "@/components/site/Seo";
 import ImageUpload from "@/components/site/ImageUpload";
@@ -14,6 +14,11 @@ function Sidebar() {
   const items = [
     { to: "/admin", label: "Site settings", icon: Settings, end: true },
     { to: "/admin/services", label: "Services", icon: Briefcase },
+    { to: "/admin/industries", label: "Industries", icon: Building2 },
+    { to: "/admin/cases", label: "Case Studies", icon: Trophy },
+    { to: "/admin/resources", label: "Resources", icon: BookOpen },
+    { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
+    { to: "/admin/legal", label: "Legal pages", icon: Scale },
     { to: "/admin/blog", label: "Blog", icon: FileText },
     { to: "/admin/pillars", label: "Pillars & values", icon: Star },
     { to: "/admin/stats", label: "Stats", icon: BarChart3 },
@@ -127,6 +132,16 @@ function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }:
 
   const save = async () => {
     const { id, created_at, updated_at, ...rest } = editing;
+    // Auto-parse JSON strings (for JSONB columns edited as textarea)
+    for (const k of Object.keys(rest)) {
+      const v = rest[k];
+      if (typeof v === "string") {
+        const trimmed = v.trim();
+        if (trimmed.startsWith("[") || trimmed.startsWith("{")) {
+          try { rest[k] = JSON.parse(trimmed); } catch { /* leave as string */ }
+        }
+      }
+    }
     let res;
     if (id) res = await supabase.from(table as any).update(rest).eq("id", id);
     else res = await supabase.from(table as any).insert(rest);
@@ -188,7 +203,11 @@ function GenericTable({ title, table, columns, fields, orderBy = "sort_order" }:
                     ) : f.type === "richtext" ? (
                       <RichTextEditor value={val ?? ""} onChange={(html) => setEditing({ ...editing, [f.key]: html })} />
                     ) : f.type === "textarea" ? (
-                      <textarea rows={4} value={val ?? ""} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value })} className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm" />
+                      <textarea rows={4}
+                        value={typeof val === "string" ? val : val != null ? JSON.stringify(val, null, 2) : ""}
+                        onChange={(e) => setEditing({ ...editing, [f.key]: e.target.value })}
+                        className="w-full bg-paper border border-border rounded-lg px-3 py-2 text-sm font-mono" />
+
                     ) : f.type === "bool" ? (
                       <input type="checkbox" checked={!!val} onChange={(e) => setEditing({ ...editing, [f.key]: e.target.checked })} />
                     ) : f.type === "tags" ? (
@@ -350,6 +369,99 @@ function NewsletterAdmin() {
   );
 }
 
+
+// ---------- New content admins ----------
+function IndustriesAdmin() {
+  return <GenericTable title="Industries" table="industries" columns={["sort_order", "slug", "title_en", "published"]}
+    fields={[
+      { type: "section", label: "Basics" },
+      { key: "slug", label: "Slug" },
+      { key: "sort_order", label: "Sort", type: "number" },
+      { key: "icon", label: "Icon (lucide name)", help: "e.g. Landmark, Factory, Building2" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "cover_image", label: "Cover image", type: "image" },
+      { type: "section", label: "Content" },
+      { key: "title_en", label: "Title (EN)" }, { key: "title_fr", label: "Title (FR)" },
+      { key: "tagline_en", label: "Tagline (EN)", type: "textarea" }, { key: "tagline_fr", label: "Tagline (FR)", type: "textarea" },
+      { key: "description_en", label: "Description (EN)", type: "textarea" }, { key: "description_fr", label: "Description (FR)", type: "textarea" },
+      { key: "challenges_en", label: "Challenges (EN) — JSON array of strings", type: "textarea", help: '["Legacy systems","Compliance"]' },
+      { key: "challenges_fr", label: "Challenges (FR) — JSON array of strings", type: "textarea" },
+      { key: "solutions_en", label: "Solutions (EN) — JSON array of strings", type: "textarea" },
+      { key: "solutions_fr", label: "Solutions (FR) — JSON array of strings", type: "textarea" },
+      { type: "section", label: "SEO" },
+      { key: "seo_title_en", label: "SEO title (EN)" }, { key: "seo_title_fr", label: "SEO title (FR)" },
+      { key: "seo_description_en", label: "SEO description (EN)", type: "textarea" }, { key: "seo_description_fr", label: "SEO description (FR)", type: "textarea" },
+      { key: "seo_keywords", label: "Keywords" },
+    ]} />;
+}
+
+function CasesAdmin() {
+  return <GenericTable title="Case Studies" table="case_studies" columns={["sort_order", "slug", "title_en", "published"]}
+    fields={[
+      { type: "section", label: "Basics" },
+      { key: "slug", label: "Slug" }, { key: "sort_order", label: "Sort", type: "number" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "client_name", label: "Client name" }, { key: "industry", label: "Industry" },
+      { key: "services", label: "Services", type: "tags", help: "e.g. Cloud, AI" },
+      { key: "cover_image", label: "Cover image", type: "image" },
+      { type: "section", label: "Content" },
+      { key: "title_en", label: "Title (EN)" }, { key: "title_fr", label: "Title (FR)" },
+      { key: "summary_en", label: "Summary (EN)", type: "textarea" }, { key: "summary_fr", label: "Summary (FR)", type: "textarea" },
+      { key: "challenge_en", label: "Challenge (EN)", type: "textarea" }, { key: "challenge_fr", label: "Challenge (FR)", type: "textarea" },
+      { key: "solution_en", label: "Solution (EN)", type: "textarea" }, { key: "solution_fr", label: "Solution (FR)", type: "textarea" },
+      { key: "results_en", label: "Results (EN) — JSON array of strings", type: "textarea" },
+      { key: "results_fr", label: "Results (FR) — JSON array of strings", type: "textarea" },
+      { key: "metrics", label: "Metrics — JSON array of {label,value}", type: "textarea", help: '[{"label":"Downtime","value":"-45%"}]' },
+      { type: "section", label: "SEO" },
+      { key: "seo_title_en", label: "SEO title (EN)" }, { key: "seo_title_fr", label: "SEO title (FR)" },
+      { key: "seo_description_en", label: "SEO description (EN)", type: "textarea" }, { key: "seo_description_fr", label: "SEO description (FR)", type: "textarea" },
+    ]} />;
+}
+
+function ResourcesAdmin() {
+  return <GenericTable title="Resources" table="resources" columns={["sort_order", "slug", "resource_type", "title_en"]}
+    fields={[
+      { key: "slug", label: "Slug" }, { key: "sort_order", label: "Sort", type: "number" },
+      { key: "resource_type", label: "Type", help: "guide | whitepaper | checklist | video | ebook" },
+      { key: "category", label: "Category" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "cover_image", label: "Cover image", type: "image" },
+      { key: "download_url", label: "Download URL", type: "url" },
+      { key: "external_url", label: "External URL", type: "url" },
+      { key: "title_en", label: "Title (EN)" }, { key: "title_fr", label: "Title (FR)" },
+      { key: "description_en", label: "Description (EN)", type: "textarea" }, { key: "description_fr", label: "Description (FR)", type: "textarea" },
+      { key: "cta_label_en", label: "CTA label (EN)" }, { key: "cta_label_fr", label: "CTA label (FR)" },
+      { key: "seo_title_en", label: "SEO title (EN)" }, { key: "seo_title_fr", label: "SEO title (FR)" },
+      { key: "seo_description_en", label: "SEO description (EN)", type: "textarea" }, { key: "seo_description_fr", label: "SEO description (FR)", type: "textarea" },
+    ]} />;
+}
+
+function FaqsAdmin() {
+  return <GenericTable title="FAQs" table="faqs" columns={["sort_order", "category", "question_en", "published"]}
+    fields={[
+      { key: "sort_order", label: "Sort", type: "number" },
+      { key: "category", label: "Category", help: "general, ai, cloud, security, pricing…" },
+      { key: "page_scope", label: "Page scope", help: "general, services, ai, cloud, contact…" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "question_en", label: "Question (EN)" }, { key: "question_fr", label: "Question (FR)" },
+      { key: "answer_en", label: "Answer (EN)", type: "richtext" }, { key: "answer_fr", label: "Answer (FR)", type: "richtext" },
+    ]} />;
+}
+
+function LegalAdmin() {
+  return <GenericTable title="Legal pages" table="legal_pages" columns={["sort_order", "slug", "title_en", "published"]}
+    fields={[
+      { key: "slug", label: "Slug", help: "e.g. privacy, terms, cookies" },
+      { key: "sort_order", label: "Sort", type: "number" },
+      { key: "published", label: "Published", type: "bool" },
+      { key: "effective_date", label: "Effective date (YYYY-MM-DD)" },
+      { key: "title_en", label: "Title (EN)" }, { key: "title_fr", label: "Title (FR)" },
+      { key: "content_en", label: "Content (EN)", type: "richtext" }, { key: "content_fr", label: "Content (FR)", type: "richtext" },
+      { key: "seo_title_en", label: "SEO title (EN)" }, { key: "seo_title_fr", label: "SEO title (FR)" },
+      { key: "seo_description_en", label: "SEO description (EN)", type: "textarea" }, { key: "seo_description_fr", label: "SEO description (FR)", type: "textarea" },
+    ]} />;
+}
+
 export default function Admin() {
   const { user, isAdmin, loading } = useAuth();
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading…</div>;
@@ -357,13 +469,18 @@ export default function Admin() {
   if (!isAdmin) return <Navigate to="/auth" replace />;
   return (
     <>
-      <Seo title="Admin — Smartway" />
+      <Seo title="Admin — Smartway" robots="noindex,nofollow" />
       <div className="flex min-h-screen bg-paper">
         <Sidebar />
         <main className="flex-1 p-10 max-w-5xl">
           <Routes>
             <Route index element={<SettingsEditor />} />
             <Route path="services" element={<ServicesAdmin />} />
+            <Route path="industries" element={<IndustriesAdmin />} />
+            <Route path="cases" element={<CasesAdmin />} />
+            <Route path="resources" element={<ResourcesAdmin />} />
+            <Route path="faqs" element={<FaqsAdmin />} />
+            <Route path="legal" element={<LegalAdmin />} />
             <Route path="blog" element={<BlogAdmin />} />
             <Route path="pillars" element={<PillarsAdmin />} />
             <Route path="stats" element={<StatsAdmin />} />
@@ -375,3 +492,4 @@ export default function Admin() {
     </>
   );
 }
+

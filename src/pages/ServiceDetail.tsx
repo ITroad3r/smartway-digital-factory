@@ -5,6 +5,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
 import DynamicIcon from "@/components/site/DynamicIcon";
 import Seo from "@/components/site/Seo";
+import Breadcrumbs from "@/components/site/Breadcrumbs";
+import { breadcrumbJsonLd, serviceJsonLd } from "@/lib/seo";
 
 export default function ServiceDetail() {
   const { slug } = useParams();
@@ -23,17 +25,31 @@ export default function ServiceDetail() {
   });
 
   if (!service) return <div className="container-editorial py-32 text-center text-muted-foreground">Loading…</div>;
+  const title = pick(service, "title");
+  const desc = pick(service, "description") || pick(service, "tagline");
 
   return (
     <>
-      <Seo title={`${pick(service, "title")} — Smartway`} description={pick(service, "tagline")} />
-      <section className="container-editorial py-20">
+      <Seo
+        title={`${title} — Smartway | Consulting Morocco`}
+        description={desc}
+        keywords={`${title.toLowerCase()} morocco, ${title.toLowerCase()} consulting`}
+        structuredData={[
+          breadcrumbJsonLd([
+            { name: t("nav.services"), url: "/services" },
+            { name: title, url: `/services/${service.slug}` },
+          ]),
+          serviceJsonLd({ name: title, description: desc, slug: service.slug }),
+        ]}
+      />
+      <Breadcrumbs items={[{ label: t("nav.services"), href: "/services" }, { label: title }]} />
+      <section className="container-editorial py-12">
         <Link to="/services" className="link-underline text-sm mb-8 inline-flex"><ArrowLeft className="h-4 w-4 mr-2" /> {t("nav.services")}</Link>
         <div className="flex items-center gap-4 mb-6 mt-4">
           <span className="font-display text-3xl text-muted-foreground">{service.number}</span>
           <DynamicIcon name={service.icon} className="h-7 w-7 text-accent" />
         </div>
-        <h1 className="display-serif text-4xl md:text-6xl max-w-4xl text-balance">{pick(service, "title")}</h1>
+        <h1 className="display-serif text-4xl md:text-6xl max-w-4xl text-balance">{title}</h1>
         <p className="mt-6 text-xl md:text-2xl italic text-muted-foreground max-w-3xl">{pick(service, "tagline")}</p>
         <p className="mt-8 text-lg max-w-3xl">{pick(service, "description")}</p>
       </section>
@@ -78,7 +94,7 @@ export default function ServiceDetail() {
           </div>
           <div className="mt-12 text-center">
             <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-sm font-medium text-background hover:bg-accent transition-colors">
-              {t("cta.contact")} <ArrowRight className="h-4 w-4" />
+              {t("cta.consult")} <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>

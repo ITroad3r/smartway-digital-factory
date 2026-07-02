@@ -10,6 +10,13 @@ import Index from "./pages/Index.tsx";
 import About from "./pages/About.tsx";
 import Services from "./pages/Services.tsx";
 import ServiceDetail from "./pages/ServiceDetail.tsx";
+import Industries from "./pages/Industries.tsx";
+import IndustryDetail from "./pages/IndustryDetail.tsx";
+import CaseStudies from "./pages/CaseStudies.tsx";
+import CaseStudyDetail from "./pages/CaseStudyDetail.tsx";
+import Resources from "./pages/Resources.tsx";
+import Faq from "./pages/Faq.tsx";
+import LegalPage from "./pages/LegalPage.tsx";
 import Blog from "./pages/Blog.tsx";
 import BlogPost from "./pages/BlogPost.tsx";
 import Contact from "./pages/Contact.tsx";
@@ -34,6 +41,13 @@ const App = () => (
               <Route path="/about" element={wrap(<About />)} />
               <Route path="/services" element={wrap(<Services />)} />
               <Route path="/services/:slug" element={wrap(<ServiceDetail />)} />
+              <Route path="/industries" element={wrap(<Industries />)} />
+              <Route path="/industries/:slug" element={wrap(<IndustryDetail />)} />
+              <Route path="/case-studies" element={wrap(<CaseStudies />)} />
+              <Route path="/case-studies/:slug" element={wrap(<CaseStudyDetail />)} />
+              <Route path="/resources" element={wrap(<Resources />)} />
+              <Route path="/faq" element={wrap(<Faq />)} />
+              <Route path="/legal/:slug" element={wrap(<LegalPage />)} />
               <Route path="/blog" element={wrap(<Blog />)} />
               <Route path="/blog/:slug" element={wrap(<BlogPost />)} />
               <Route path="/contact" element={wrap(<Contact />)} />

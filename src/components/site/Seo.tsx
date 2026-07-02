@@ -12,7 +12,7 @@ interface Props {
   twitterCard?: string;
   twitterHandle?: string;
   robots?: string;
-  structuredData?: Record<string, any>;
+  structuredData?: Record<string, any> | Array<Record<string, any>>;
   siteName?: string;
 }
 
@@ -26,11 +26,13 @@ const setMeta = (selector: string, attrName: string, attrValue: string, content:
   el.setAttribute("content", content);
 };
 
-const setLink = (rel: string, href: string) => {
-  let el = document.head.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement | null;
+const setLink = (rel: string, href: string, extra?: Record<string, string>) => {
+  const key = extra?.hreflang ? `link[rel="${rel}"][hreflang="${extra.hreflang}"]` : `link[rel="${rel}"]`;
+  let el = document.head.querySelector(key) as HTMLLinkElement | null;
   if (!el) {
     el = document.createElement("link");
     el.setAttribute("rel", rel);
+    if (extra?.hreflang) el.setAttribute("hreflang", extra.hreflang);
     document.head.appendChild(el);
   }
   el.setAttribute("href", href);
@@ -58,8 +60,12 @@ export default function Seo({
     if (keywords) setMeta('meta[name="keywords"]', "name", "keywords", keywords);
     setMeta('meta[name="robots"]', "name", "robots", robots);
 
-    const canonicalHref = canonical || window.location.href;
+    const canonicalHref = canonical || window.location.href.split("#")[0].split("?")[0];
     setLink("canonical", canonicalHref);
+    // hreflang alternates
+    setLink("alternate", canonicalHref, { hreflang: "en" });
+    setLink("alternate", canonicalHref, { hreflang: "fr" });
+    setLink("alternate", canonicalHref, { hreflang: "x-default" });
 
     // Open Graph
     setMeta('meta[property="og:title"]', "property", "og:title", ogTitle || title);
@@ -69,6 +75,7 @@ export default function Seo({
     setMeta('meta[property="og:type"]', "property", "og:type", ogType);
     setMeta('meta[property="og:url"]', "property", "og:url", canonicalHref);
     setMeta('meta[property="og:site_name"]', "property", "og:site_name", siteName);
+    setMeta('meta[property="og:locale"]', "property", "og:locale", document.documentElement.lang === "fr" ? "fr_FR" : "en_US");
     if (ogImage) {
       setMeta('meta[property="og:image"]', "property", "og:image", ogImage);
       setMeta('meta[property="og:image:width"]', "property", "og:image:width", "1200");
@@ -85,19 +92,17 @@ export default function Seo({
     if (ogImage) setMeta('meta[name="twitter:image"]', "name", "twitter:image", ogImage);
     if (twitterHandle) setMeta('meta[name="twitter:site"]', "name", "twitter:site", twitterHandle);
 
-    // Structured data (JSON-LD)
-    const ldId = "seo-jsonld";
-    let ld = document.getElementById(ldId) as HTMLScriptElement | null;
+    // Structured data (JSON-LD) — remove any previous dynamic blocks first
+    document.head.querySelectorAll('script[data-seo="jsonld"]').forEach((n) => n.remove());
     if (structuredData) {
-      if (!ld) {
-        ld = document.createElement("script");
-        ld.type = "application/ld+json";
-        ld.id = ldId;
-        document.head.appendChild(ld);
-      }
-      ld.text = JSON.stringify(structuredData);
-    } else if (ld) {
-      ld.remove();
+      const arr = Array.isArray(structuredData) ? structuredData : [structuredData];
+      arr.forEach((data) => {
+        const s = document.createElement("script");
+        s.type = "application/ld+json";
+        s.setAttribute("data-seo", "jsonld");
+        s.text = JSON.stringify(data);
+        document.head.appendChild(s);
+      });
     }
   }, [title, description, keywords, canonical, ogImage, ogTitle, ogDescription, ogType, twitterCard, twitterHandle, robots, structuredData, siteName]);
 
