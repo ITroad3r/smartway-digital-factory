@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles, Cloud, BrainCircuit, Database, Zap, Shield, Award, CheckCircle2, Users, Globe, Building2 } from "lucide-react";
+import { ArrowRight, Sparkles, Cloud, BrainCircuit, Database, Zap, Shield, Award, CheckCircle2, Building2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useI18n } from "@/lib/i18n";
