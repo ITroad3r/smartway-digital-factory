@@ -119,7 +119,7 @@ export default function Seo({
         document.head.appendChild(s);
       });
     }
-  }, [title, description, keywords, canonical, ogImage, ogTitle, ogDescription, ogType, twitterCard, twitterHandle, robots, structuredData, siteName]);
+  }, [title, description, keywords, canonical, ogImage, ogTitle, ogDescription, ogType, twitterCard, twitterHandle, robots, structuredData, siteName, alternates]);
 
   return null;
 }
