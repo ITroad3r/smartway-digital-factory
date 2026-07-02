@@ -3,7 +3,7 @@ import { Link, useNavigate, Navigate, Routes, Route } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { LogOut, Settings, Briefcase, FileText, Mail, Users, Star, BarChart3, Heart } from "lucide-react";
+import { LogOut, Settings, Briefcase, FileText, Mail, Users, Star, BarChart3, Building2, Trophy, BookOpen, HelpCircle, Scale } from "lucide-react";
 import logo from "@/assets/logo-smartway.jpeg";
 import Seo from "@/components/site/Seo";
 import ImageUpload from "@/components/site/ImageUpload";
@@ -14,6 +14,11 @@ function Sidebar() {
   const items = [
     { to: "/admin", label: "Site settings", icon: Settings, end: true },
     { to: "/admin/services", label: "Services", icon: Briefcase },
+    { to: "/admin/industries", label: "Industries", icon: Building2 },
+    { to: "/admin/cases", label: "Case Studies", icon: Trophy },
+    { to: "/admin/resources", label: "Resources", icon: BookOpen },
+    { to: "/admin/faqs", label: "FAQs", icon: HelpCircle },
+    { to: "/admin/legal", label: "Legal pages", icon: Scale },
     { to: "/admin/blog", label: "Blog", icon: FileText },
     { to: "/admin/pillars", label: "Pillars & values", icon: Star },
     { to: "/admin/stats", label: "Stats", icon: BarChart3 },
