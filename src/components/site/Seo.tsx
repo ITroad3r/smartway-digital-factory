@@ -53,6 +53,7 @@ export default function Seo({
   robots = "index,follow",
   structuredData,
   siteName = "Smartway",
+  alternates,
 }: Props) {
   useEffect(() => {
     document.title = title;
