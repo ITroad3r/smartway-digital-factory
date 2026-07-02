@@ -64,10 +64,23 @@ export default function Seo({
 
     const canonicalHref = canonical || window.location.href.split("#")[0].split("?")[0];
     setLink("canonical", canonicalHref);
-    // hreflang alternates
-    setLink("alternate", canonicalHref, { hreflang: "en" });
-    setLink("alternate", canonicalHref, { hreflang: "fr" });
-    setLink("alternate", canonicalHref, { hreflang: "x-default" });
+    // hreflang alternates — remove any previous dynamic ones so language-specific pages emit correct pairs
+    document.head.querySelectorAll('link[rel="alternate"][data-seo="hreflang"]').forEach((n) => n.remove());
+    const emit = (hreflang: string, href: string) => {
+      const el = document.createElement("link");
+      el.setAttribute("rel", "alternate");
+      el.setAttribute("hreflang", hreflang);
+      el.setAttribute("href", href);
+      el.setAttribute("data-seo", "hreflang");
+      document.head.appendChild(el);
+    };
+    if (alternates && alternates.length) {
+      alternates.forEach((a) => emit(a.hreflang, a.href));
+    } else {
+      emit("en", canonicalHref);
+      emit("fr", canonicalHref);
+      emit("x-default", canonicalHref);
+    }
 
     // Open Graph
     setMeta('meta[property="og:title"]', "property", "og:title", ogTitle || title);
