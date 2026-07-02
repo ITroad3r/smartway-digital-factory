@@ -164,6 +164,96 @@ export type Database = {
         }
         Relationships: []
       }
+      case_studies: {
+        Row: {
+          challenge_en: string | null
+          challenge_fr: string | null
+          client_name: string | null
+          cover_image: string | null
+          created_at: string
+          gallery: string[] | null
+          id: string
+          industry: string | null
+          metrics: Json | null
+          published: boolean
+          results_en: Json | null
+          results_fr: Json | null
+          seo_description_en: string | null
+          seo_description_fr: string | null
+          seo_keywords: string | null
+          seo_title_en: string | null
+          seo_title_fr: string | null
+          services: string[] | null
+          slug: string
+          solution_en: string | null
+          solution_fr: string | null
+          sort_order: number
+          summary_en: string | null
+          summary_fr: string | null
+          title_en: string
+          title_fr: string | null
+          updated_at: string
+        }
+        Insert: {
+          challenge_en?: string | null
+          challenge_fr?: string | null
+          client_name?: string | null
+          cover_image?: string | null
+          created_at?: string
+          gallery?: string[] | null
+          id?: string
+          industry?: string | null
+          metrics?: Json | null
+          published?: boolean
+          results_en?: Json | null
+          results_fr?: Json | null
+          seo_description_en?: string | null
+          seo_description_fr?: string | null
+          seo_keywords?: string | null
+          seo_title_en?: string | null
+          seo_title_fr?: string | null
+          services?: string[] | null
+          slug: string
+          solution_en?: string | null
+          solution_fr?: string | null
+          sort_order?: number
+          summary_en?: string | null
+          summary_fr?: string | null
+          title_en: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Update: {
+          challenge_en?: string | null
+          challenge_fr?: string | null
+          client_name?: string | null
+          cover_image?: string | null
+          created_at?: string
+          gallery?: string[] | null
+          id?: string
+          industry?: string | null
+          metrics?: Json | null
+          published?: boolean
+          results_en?: Json | null
+          results_fr?: Json | null
+          seo_description_en?: string | null
+          seo_description_fr?: string | null
+          seo_keywords?: string | null
+          seo_title_en?: string | null
+          seo_title_fr?: string | null
+          services?: string[] | null
+          slug?: string
+          solution_en?: string | null
+          solution_fr?: string | null
+          sort_order?: number
+          summary_en?: string | null
+          summary_fr?: string | null
+          title_en?: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           company: string | null
@@ -197,6 +287,48 @@ export type Database = {
           phone?: string | null
           read?: boolean
           service_interest?: string | null
+        }
+        Relationships: []
+      }
+      faqs: {
+        Row: {
+          answer_en: string
+          answer_fr: string | null
+          category: string | null
+          created_at: string
+          id: string
+          page_scope: string | null
+          published: boolean
+          question_en: string
+          question_fr: string | null
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          answer_en: string
+          answer_fr?: string | null
+          category?: string | null
+          created_at?: string
+          id?: string
+          page_scope?: string | null
+          published?: boolean
+          question_en: string
+          question_fr?: string | null
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          answer_en?: string
+          answer_fr?: string | null
+          category?: string | null
+          created_at?: string
+          id?: string
+          page_scope?: string | null
+          published?: boolean
+          question_en?: string
+          question_fr?: string | null
+          sort_order?: number
+          updated_at?: string
         }
         Relationships: []
       }
@@ -254,6 +386,138 @@ export type Database = {
         }
         Relationships: []
       }
+      industries: {
+        Row: {
+          challenges_en: Json | null
+          challenges_fr: Json | null
+          cover_image: string | null
+          created_at: string
+          description_en: string | null
+          description_fr: string | null
+          icon: string | null
+          id: string
+          published: boolean
+          seo_description_en: string | null
+          seo_description_fr: string | null
+          seo_keywords: string | null
+          seo_title_en: string | null
+          seo_title_fr: string | null
+          slug: string
+          solutions_en: Json | null
+          solutions_fr: Json | null
+          sort_order: number
+          tagline_en: string | null
+          tagline_fr: string | null
+          title_en: string
+          title_fr: string | null
+          updated_at: string
+        }
+        Insert: {
+          challenges_en?: Json | null
+          challenges_fr?: Json | null
+          cover_image?: string | null
+          created_at?: string
+          description_en?: string | null
+          description_fr?: string | null
+          icon?: string | null
+          id?: string
+          published?: boolean
+          seo_description_en?: string | null
+          seo_description_fr?: string | null
+          seo_keywords?: string | null
+          seo_title_en?: string | null
+          seo_title_fr?: string | null
+          slug: string
+          solutions_en?: Json | null
+          solutions_fr?: Json | null
+          sort_order?: number
+          tagline_en?: string | null
+          tagline_fr?: string | null
+          title_en: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Update: {
+          challenges_en?: Json | null
+          challenges_fr?: Json | null
+          cover_image?: string | null
+          created_at?: string
+          description_en?: string | null
+          description_fr?: string | null
+          icon?: string | null
+          id?: string
+          published?: boolean
+          seo_description_en?: string | null
+          seo_description_fr?: string | null
+          seo_keywords?: string | null
+          seo_title_en?: string | null
+          seo_title_fr?: string | null
+          slug?: string
+          solutions_en?: Json | null
+          solutions_fr?: Json | null
+          sort_order?: number
+          tagline_en?: string | null
+          tagline_fr?: string | null
+          title_en?: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      legal_pages: {
+        Row: {
+          content_en: string | null
+          content_fr: string | null
+          created_at: string
+          effective_date: string | null
+          id: string
+          published: boolean
+          seo_description_en: string | null
+          seo_description_fr: string | null
+          seo_title_en: string | null
+          seo_title_fr: string | null
+          slug: string
+          sort_order: number
+          title_en: string
+          title_fr: string | null
+          updated_at: string
+        }
+        Insert: {
+          content_en?: string | null
+          content_fr?: string | null
+          created_at?: string
+          effective_date?: string | null
+          id?: string
+          published?: boolean
+          seo_description_en?: string | null
+          seo_description_fr?: string | null
+          seo_title_en?: string | null
+          seo_title_fr?: string | null
+          slug: string
+          sort_order?: number
+          title_en: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Update: {
+          content_en?: string | null
+          content_fr?: string | null
+          created_at?: string
+          effective_date?: string | null
+          id?: string
+          published?: boolean
+          seo_description_en?: string | null
+          seo_description_fr?: string | null
+          seo_title_en?: string | null
+          seo_title_fr?: string | null
+          slug?: string
+          sort_order?: number
+          title_en?: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       newsletter_subscribers: {
         Row: {
           created_at: string
@@ -289,6 +553,78 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      resources: {
+        Row: {
+          category: string | null
+          cover_image: string | null
+          created_at: string
+          cta_label_en: string | null
+          cta_label_fr: string | null
+          description_en: string | null
+          description_fr: string | null
+          download_url: string | null
+          external_url: string | null
+          id: string
+          published: boolean
+          resource_type: string
+          seo_description_en: string | null
+          seo_description_fr: string | null
+          seo_title_en: string | null
+          seo_title_fr: string | null
+          slug: string
+          sort_order: number
+          title_en: string
+          title_fr: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          cover_image?: string | null
+          created_at?: string
+          cta_label_en?: string | null
+          cta_label_fr?: string | null
+          description_en?: string | null
+          description_fr?: string | null
+          download_url?: string | null
+          external_url?: string | null
+          id?: string
+          published?: boolean
+          resource_type?: string
+          seo_description_en?: string | null
+          seo_description_fr?: string | null
+          seo_title_en?: string | null
+          seo_title_fr?: string | null
+          slug: string
+          sort_order?: number
+          title_en: string
+          title_fr?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          cover_image?: string | null
+          created_at?: string
+          cta_label_en?: string | null
+          cta_label_fr?: string | null
+          description_en?: string | null
+          description_fr?: string | null
+          download_url?: string | null
+          external_url?: string | null
+          id?: string
+          published?: boolean
+          resource_type?: string
+          seo_description_en?: string | null
+          seo_description_fr?: string | null
+          seo_title_en?: string | null
+          seo_title_fr?: string | null
+          slug?: string
+          sort_order?: number
+          title_en?: string
+          title_fr?: string | null
           updated_at?: string
         }
         Relationships: []

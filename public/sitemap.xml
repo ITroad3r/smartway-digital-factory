@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://smartways.ma/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://smartways.ma/about</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/services</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://smartways.ma/services/digital-transformation</loc><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/services/artificial-intelligence</loc><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/services/cloud-consulting</loc><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/services/data-analytics</loc><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/services/business-process-automation</loc><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/services/cybersecurity</loc><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/services/microsoft-solutions</loc><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/services/aws-solutions</loc><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/industries</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/case-studies</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://smartways.ma/resources</loc><priority>0.7</priority></url>
+  <url><loc>https://smartways.ma/blog</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://smartways.ma/faq</loc><priority>0.7</priority></url>
+  <url><loc>https://smartways.ma/contact</loc><priority>0.9</priority></url>
+  <url><loc>https://smartways.ma/legal/privacy</loc><priority>0.3</priority></url>
+  <url><loc>https://smartways.ma/legal/terms</loc><priority>0.3</priority></url>
+  <url><loc>https://smartways.ma/legal/cookies</loc><priority>0.3</priority></url>
+</urlset>
