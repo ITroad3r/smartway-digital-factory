@@ -1,13 +1,26 @@
-import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useParams, Navigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, type Lang } from "@/lib/i18n";
 import Seo from "@/components/site/Seo";
 
 export default function BlogPost() {
-  const { slug } = useParams();
-  const { t, pick, lang } = useI18n();
+  const params = useParams();
+  const slug = params.slug;
+  const urlLang = params.lang as Lang | undefined;
+  const { t, pick, lang, setLang } = useI18n();
+
+  // If URL carries a language segment, keep the app language in sync with it.
+  useEffect(() => {
+    if (urlLang && (urlLang === "en" || urlLang === "fr") && urlLang !== lang) {
+      setLang(urlLang);
+    }
+  }, [urlLang, lang, setLang]);
+
+  const effectiveLang: Lang = (urlLang === "en" || urlLang === "fr") ? urlLang : lang;
+
   const { data: post } = useQuery({
     queryKey: ["blog_post", slug],
     queryFn: async () => (await supabase.from("blog_posts").select("*").eq("slug", slug!).eq("published", true).maybeSingle()).data,
@@ -18,7 +31,13 @@ export default function BlogPost() {
     queryFn: async () => (await supabase.from("site_settings").select("*").limit(1).maybeSingle()).data,
   });
 
+  // Legacy /blog/:slug URL — redirect to language-specific URL for clean sharing.
+  if (!urlLang && slug) {
+    return <Navigate to={`/blog/${lang}/${slug}`} replace />;
+  }
+
   if (!post) return <div className="container-editorial py-32 text-center text-muted-foreground">Loading…</div>;
+
 
   const stripHtml = (s?: string | null) => (s ?? "").replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
   const titlePlain = stripHtml(pick(post, "title"));
@@ -48,13 +67,21 @@ export default function BlogPost() {
     mainEntityOfPage: { "@type": "WebPage", "@id": post.canonical_url || (typeof window !== "undefined" ? window.location.href : "") },
   };
 
+  const origin = typeof window !== "undefined" ? window.location.origin : "https://smartways.ma";
+  const canonicalHref = post.canonical_url || `${origin}/blog/${effectiveLang}/${post.slug}`;
+  const alternates = [
+    { hreflang: "en", href: `${origin}/blog/en/${post.slug}` },
+    { hreflang: "fr", href: `${origin}/blog/fr/${post.slug}` },
+    { hreflang: "x-default", href: `${origin}/blog/en/${post.slug}` },
+  ];
+
   return (
     <>
       <Seo
         title={seoTitle}
         description={seoDescription}
         keywords={post.seo_keywords || post.tags?.join(", ")}
-        canonical={post.canonical_url}
+        canonical={canonicalHref}
         ogImage={post.og_image || cover}
         ogTitle={ogTitle}
         ogDescription={ogDescription}
@@ -64,6 +91,7 @@ export default function BlogPost() {
         robots={post.meta_robots || "index,follow"}
         structuredData={structuredData}
         siteName={settings?.site_name || "Smartway"}
+        alternates={alternates}
       />
       <article className="container-editorial py-20 max-w-3xl">
         <Link to="/blog" className="link-underline text-sm mb-8 inline-flex"><ArrowLeft className="h-4 w-4 mr-2" /> {t("nav.blog")}</Link>

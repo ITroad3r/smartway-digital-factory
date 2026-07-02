@@ -31,7 +31,7 @@ export default function Blog() {
               const titleAlt = titleHtml.replace(/<[^>]*>/g, "").trim();
               const cover = (lang === "fr" ? p.cover_image_fr : p.cover_image) || p.cover_image;
               return (
-              <Link key={p.id} to={`/blog/${p.slug}`} className="group grid lg:grid-cols-12 gap-6 py-10 items-center hover:bg-paper-soft transition-colors px-2 -mx-2 rounded-lg">
+              <Link key={p.id} to={`/blog/${lang}/${p.slug}`} className="group grid lg:grid-cols-12 gap-6 py-10 items-center hover:bg-paper-soft transition-colors px-2 -mx-2 rounded-lg">
                 <div className="lg:col-span-3">
                   {cover ? (
                     <img
