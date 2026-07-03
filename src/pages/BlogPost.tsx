@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Link, useParams, Navigate } from "react-router-dom";
+import { useEffect, useRef } from "react";
+import { Link, useParams, Navigate, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,13 +11,18 @@ export default function BlogPost() {
   const slug = params.slug;
   const urlLang = params.lang as Lang | undefined;
   const { t, pick, lang, setLang } = useI18n();
+  const navigate = useNavigate();
 
-  // If URL carries a language segment, keep the app language in sync with it.
+  // On initial mount only: adopt the URL's language as the app language (URL wins on landing).
+  const initialized = useRef(false);
   useEffect(() => {
+    if (initialized.current) return;
     if (urlLang && (urlLang === "en" || urlLang === "fr") && urlLang !== lang) {
       setLang(urlLang);
     }
-  }, [urlLang, lang, setLang]);
+    initialized.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const effectiveLang: Lang = (urlLang === "en" || urlLang === "fr") ? urlLang : lang;
 
@@ -30,6 +35,14 @@ export default function BlogPost() {
     queryKey: ["site_settings_seo"],
     queryFn: async () => (await supabase.from("site_settings").select("*").limit(1).maybeSingle()).data,
   });
+
+  // When the user toggles the language after landing, redirect to the matching language URL/slug.
+  useEffect(() => {
+    if (!post || !urlLang) return;
+    if (lang === urlLang) return;
+    const targetSlug = lang === "fr" ? ((post as any).slug_fr || post.slug) : post.slug;
+    navigate(`/blog/${lang}/${targetSlug}`, { replace: true });
+  }, [lang, urlLang, post, navigate]);
 
   // Legacy /blog/:slug URL — redirect to language-specific URL for clean sharing.
   if (!urlLang && slug) {
