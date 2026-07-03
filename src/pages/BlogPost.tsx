@@ -23,7 +23,7 @@ export default function BlogPost() {
 
   const { data: post } = useQuery({
     queryKey: ["blog_post", slug],
-    queryFn: async () => (await supabase.from("blog_posts").select("*").eq("slug", slug!).eq("published", true).maybeSingle()).data,
+    queryFn: async () => (await supabase.from("blog_posts").select("*").or(`slug.eq.${slug},slug_fr.eq.${slug}`).eq("published", true).maybeSingle()).data,
     enabled: !!slug,
   });
   const { data: settings } = useQuery({
@@ -68,11 +68,13 @@ export default function BlogPost() {
   };
 
   const origin = typeof window !== "undefined" ? window.location.origin : "https://smartways.ma";
-  const canonicalHref = post.canonical_url || `${origin}/blog/${effectiveLang}/${post.slug}`;
+  const enSlug = post.slug;
+  const frSlug = (post as any).slug_fr || post.slug;
+  const canonicalHref = post.canonical_url || `${origin}/blog/${effectiveLang}/${effectiveLang === "fr" ? frSlug : enSlug}`;
   const alternates = [
-    { hreflang: "en", href: `${origin}/blog/en/${post.slug}` },
-    { hreflang: "fr", href: `${origin}/blog/fr/${post.slug}` },
-    { hreflang: "x-default", href: `${origin}/blog/en/${post.slug}` },
+    { hreflang: "en", href: `${origin}/blog/en/${enSlug}` },
+    { hreflang: "fr", href: `${origin}/blog/fr/${frSlug}` },
+    { hreflang: "x-default", href: `${origin}/blog/en/${enSlug}` },
   ];
 
   return (

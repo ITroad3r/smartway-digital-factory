@@ -77,6 +77,7 @@ export type Database = {
           seo_title_en: string | null
           seo_title_fr: string | null
           slug: string
+          slug_fr: string | null
           structured_data_type: string | null
           tags: string[] | null
           title_en: string
@@ -116,6 +117,7 @@ export type Database = {
           seo_title_en?: string | null
           seo_title_fr?: string | null
           slug: string
+          slug_fr?: string | null
           structured_data_type?: string | null
           tags?: string[] | null
           title_en: string
@@ -155,6 +157,7 @@ export type Database = {
           seo_title_en?: string | null
           seo_title_fr?: string | null
           slug?: string
+          slug_fr?: string | null
           structured_data_type?: string | null
           tags?: string[] | null
           title_en?: string
