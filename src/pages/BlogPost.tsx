@@ -23,7 +23,7 @@ export default function BlogPost() {
 
   const { data: post } = useQuery({
     queryKey: ["blog_post", slug],
-    queryFn: async () => (await supabase.from("blog_posts").select("*").eq("slug", slug!).eq("published", true).maybeSingle()).data,
+    queryFn: async () => (await supabase.from("blog_posts").select("*").or(`slug.eq.${slug},slug_fr.eq.${slug}`).eq("published", true).maybeSingle()).data,
     enabled: !!slug,
   });
   const { data: settings } = useQuery({
