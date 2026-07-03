@@ -30,8 +30,9 @@ export default function Blog() {
               const titleHtml = pick(p, "title") || "";
               const titleAlt = titleHtml.replace(/<[^>]*>/g, "").trim();
               const cover = (lang === "fr" ? p.cover_image_fr : p.cover_image) || p.cover_image;
+              const linkSlug = lang === "fr" ? (p.slug_fr || p.slug) : p.slug;
               return (
-              <Link key={p.id} to={`/blog/${lang}/${p.slug}`} className="group grid lg:grid-cols-12 gap-6 py-10 items-center hover:bg-paper-soft transition-colors px-2 -mx-2 rounded-lg">
+              <Link key={p.id} to={`/blog/${lang}/${linkSlug}`} className="group grid lg:grid-cols-12 gap-6 py-10 items-center hover:bg-paper-soft transition-colors px-2 -mx-2 rounded-lg">
                 <div className="lg:col-span-3">
                   {cover ? (
                     <img
