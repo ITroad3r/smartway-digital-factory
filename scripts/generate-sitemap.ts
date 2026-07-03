@@ -60,14 +60,8 @@ async function fetchDynamic(): Promise<SitemapEntry[]> {
   );
   (blog.data ?? []).forEach((r: any) => {
     const lastmod = toIso(r.updated_at || r.published_at);
-    ["en", "fr"].forEach((lng) =>
-      entries.push({
-        path: `/blog/${lng}/${r.slug}`,
-        lastmod,
-        changefreq: "monthly",
-        priority: "0.7",
-      })
-    );
+    entries.push({ path: `/blog/en/${r.slug}`, lastmod, changefreq: "monthly", priority: "0.7" });
+    entries.push({ path: `/blog/fr/${r.slug_fr || r.slug}`, lastmod, changefreq: "monthly", priority: "0.7" });
   });
   (resources.data ?? []).forEach((r: any) =>
     entries.push({ path: `/resources/${r.slug}`, lastmod: toIso(r.updated_at), priority: "0.6" })
