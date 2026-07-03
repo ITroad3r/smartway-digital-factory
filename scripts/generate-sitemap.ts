@@ -42,7 +42,7 @@ async function fetchDynamic(): Promise<SitemapEntry[]> {
     supabase.from("services").select("slug, updated_at"),
     supabase.from("industries").select("slug, updated_at"),
     supabase.from("case_studies").select("slug, updated_at, published").eq("published", true),
-    supabase.from("blog_posts").select("slug, updated_at, published_at, published").eq("published", true),
+    supabase.from("blog_posts").select("slug, slug_fr, updated_at, published_at, published").eq("published", true),
     supabase.from("resources").select("slug, updated_at, published").eq("published", true),
     supabase.from("legal_pages").select("slug, updated_at"),
   ]);
