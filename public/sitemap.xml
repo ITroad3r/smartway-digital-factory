@@ -131,66 +131,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/legacy-modernization</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://smartways.ma/blog/fr/legacy-modernization</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://smartways.ma/blog/en/iac-foundation</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://smartways.ma/blog/fr/iac-foundation</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://smartways.ma/blog/en/devsecops</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://smartways.ma/blog/fr/devsecops</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://smartways.ma/blog/en/agile-trap</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://smartways.ma/blog/fr/agile-trap</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://smartways.ma/blog/en/digital-transformation-morocco-2026</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://smartways.ma/blog/fr/digital-transformation-morocco-2026</loc>
-    <lastmod>2026-07-03</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://smartways.ma/blog/en/product-strategy-before-design</loc>
     <lastmod>2026-06-22</lastmod>
     <changefreq>monthly</changefreq>
@@ -227,121 +167,169 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/cloud-migration-checklist-morocco</loc>
+    <loc>https://smartways.ma/blog/en/devsecops-security-lifecycle</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/fr/cloud-migration-checklist-morocco</loc>
+    <loc>https://smartways.ma/blog/fr/devsecops-securite-cycle-de-vie</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/ai-consulting-morocco-guide</loc>
+    <loc>https://smartways.ma/blog/en/legacy-system-modernization-cant-wait</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/fr/ai-consulting-morocco-guide</loc>
+    <loc>https://smartways.ma/blog/fr/modernisation-systemes-legacy-urgence</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/cloud-migration-azure-aws</loc>
+    <loc>https://smartways.ma/blog/en/cloud-migration-checklist-step-by-step</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/fr/cloud-migration-azure-aws</loc>
+    <loc>https://smartways.ma/blog/fr/checklist-migration-cloud-etape-par-etape</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/data-analytics-power-bi</loc>
+    <loc>https://smartways.ma/blog/en/agile-transformation-trap-avoid</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/fr/data-analytics-power-bi</loc>
+    <loc>https://smartways.ma/blog/fr/piege-transformation-agile-eviter</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/business-process-automation</loc>
+    <loc>https://smartways.ma/blog/en/infrastructure-as-code-scalable-cloud</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/fr/business-process-automation</loc>
+    <loc>https://smartways.ma/blog/fr/infrastructure-as-code-cloud-evolutif</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/cybersecurity-morocco-cndp</loc>
+    <loc>https://smartways.ma/blog/en/one-week-digital-strategy-workshop</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/fr/cybersecurity-morocco-cndp</loc>
+    <loc>https://smartways.ma/blog/fr/atelier-strategie-digitale-une-semaine</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/microsoft-copilot-enterprise</loc>
+    <loc>https://smartways.ma/blog/en/10-generative-ai-enterprise-use-cases</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/fr/microsoft-copilot-enterprise</loc>
+    <loc>https://smartways.ma/blog/fr/10-cas-usage-ia-generative-enterprise</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/aws-well-architected</loc>
+    <loc>https://smartways.ma/blog/en/aws-well-architected-20-reviews-lessons</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/fr/aws-well-architected</loc>
+    <loc>https://smartways.ma/blog/fr/aws-well-architected-20-revues-lecons</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/generative-ai-enterprise-use-cases</loc>
+    <loc>https://smartways.ma/blog/en/microsoft-365-copilot-enterprise-rollout</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/fr/generative-ai-enterprise-use-cases</loc>
+    <loc>https://smartways.ma/blog/fr/microsoft-365-copilot-deploiement-enterprise</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/en/digital-strategy-workshop</loc>
+    <loc>https://smartways.ma/blog/en/cybersecurity-morocco-cndp-dgssi</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://smartways.ma/blog/fr/digital-strategy-workshop</loc>
+    <loc>https://smartways.ma/blog/fr/cybersecurite-maroc-cndp-dgssi</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://smartways.ma/blog/en/business-process-automation-2026-rpa-ai-agents</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://smartways.ma/blog/fr/automatisation-processus-metiers-2026-rpa-ia</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://smartways.ma/blog/en/modern-data-platform-power-bi-lakehouse</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://smartways.ma/blog/fr/plateforme-data-moderne-power-bi-lakehouse</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://smartways.ma/blog/en/azure-vs-aws-moroccan-enterprises</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://smartways.ma/blog/fr/azure-vs-aws-entreprises-marocaines</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://smartways.ma/blog/en/ai-consulting-morocco-buyers-guide</loc>
+    <lastmod>2026-07-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://smartways.ma/blog/fr/conseil-ia-maroc-guide-achat</loc>
     <lastmod>2026-07-03</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
