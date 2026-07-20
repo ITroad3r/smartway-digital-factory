@@ -54,6 +54,9 @@ const App = () => (
               <Route path="/contact" element={wrap(<Contact />)} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/admin/*" element={<Admin />} />
+              <Route path="/backoffice" element={<Navigate to="/admin/leads" replace />} />
+              <Route path="/backoffice/leads" element={<Navigate to="/admin/leads" replace />} />
+              <Route path="/backoffice/leads/:id" element={<Navigate to="/admin/leads" replace />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
