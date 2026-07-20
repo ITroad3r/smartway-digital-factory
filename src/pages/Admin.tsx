@@ -12,9 +12,10 @@ import LeadsAdmin from "./admin/LeadsAdmin";
 
 function Sidebar() {
   const { signOut } = useAuth();
+  const { lang } = useI18n();
   const items = [
     { to: "/admin", label: "Site settings", icon: Settings, end: true },
-    { to: "/admin/leads", label: "Leads (Waya)", icon: Inbox },
+    { to: "/admin/leads", label: lang === "fr" ? "Demandes clients" : "Customer demands", icon: Inbox },
     { to: "/admin/services", label: "Services", icon: Briefcase },
     { to: "/admin/industries", label: "Industries", icon: Building2 },
     { to: "/admin/cases", label: "Case Studies", icon: Trophy },
