@@ -688,7 +688,6 @@ export default function WayaChat() {
             height: "clamp(56px, 8vw, 64px)",
             background: "white",
             boxShadow: "0 8px 24px rgba(27,42,74,0.25)",
-            ringColor: brand.blue,
           }}
         >
           <img src={WAYA_AVATAR} alt="Waya" className="w-full h-full rounded-full" style={{ objectFit: "contain" }} />
