@@ -9,6 +9,7 @@ import Seo from "@/components/site/Seo";
 import ImageUpload from "@/components/site/ImageUpload";
 import RichTextEditor from "@/components/site/RichTextEditor";
 import LeadsAdmin from "./admin/LeadsAdmin";
+import { useI18n } from "@/lib/i18n";
 
 function Sidebar() {
   const { signOut } = useAuth();
