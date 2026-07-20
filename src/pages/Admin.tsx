@@ -3,16 +3,18 @@ import { Link, useNavigate, Navigate, Routes, Route } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { LogOut, Settings, Briefcase, FileText, Mail, Users, Star, BarChart3, Building2, Trophy, BookOpen, HelpCircle, Scale } from "lucide-react";
+import { LogOut, Settings, Briefcase, FileText, Mail, Users, Star, BarChart3, Building2, Trophy, BookOpen, HelpCircle, Scale, Inbox } from "lucide-react";
 import logo from "@/assets/logo-smartway.jpeg";
 import Seo from "@/components/site/Seo";
 import ImageUpload from "@/components/site/ImageUpload";
 import RichTextEditor from "@/components/site/RichTextEditor";
+import LeadsAdmin from "./admin/LeadsAdmin";
 
 function Sidebar() {
   const { signOut } = useAuth();
   const items = [
     { to: "/admin", label: "Site settings", icon: Settings, end: true },
+    { to: "/admin/leads", label: "Leads (Waya)", icon: Inbox },
     { to: "/admin/services", label: "Services", icon: Briefcase },
     { to: "/admin/industries", label: "Industries", icon: Building2 },
     { to: "/admin/cases", label: "Case Studies", icon: Trophy },
@@ -475,6 +477,7 @@ export default function Admin() {
         <main className="flex-1 p-10 max-w-5xl">
           <Routes>
             <Route index element={<SettingsEditor />} />
+            <Route path="leads" element={<LeadsAdmin />} />
             <Route path="services" element={<ServicesAdmin />} />
             <Route path="industries" element={<IndustriesAdmin />} />
             <Route path="cases" element={<CasesAdmin />} />
