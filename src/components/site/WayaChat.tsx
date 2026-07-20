@@ -342,9 +342,14 @@ export default function WayaChat() {
         return (
           <div className="flex flex-col gap-3">
             <BotBubble>{t("greeting")}</BotBubble>
-            <PrimaryBtn ref={focusRefFor(true) as any} onClick={startFlow} className="self-start">
+            <button
+              ref={focusRefFor(true) as any}
+              onClick={startFlow}
+              className="self-start rounded-full px-5 py-2 text-sm font-medium text-white"
+              style={{ background: BRAND.blue }}
+            >
               {lang === "fr" ? "C'est parti" : "Let's go"}
-            </PrimaryBtn>
+            </button>
           </div>
         );
 
