@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import WayaChat from "./WayaChat";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
@@ -8,6 +9,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <Header />
       <main className="flex-1 pt-40 xl:pt-24">{children}</main>
       <Footer />
+      <WayaChat />
     </div>
   );
 }
