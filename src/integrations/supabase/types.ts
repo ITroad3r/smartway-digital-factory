@@ -467,6 +467,44 @@ export type Database = {
         }
         Relationships: []
       }
+      lead_activities: {
+        Row: {
+          activity_type: string
+          actor: string | null
+          created_at: string
+          id: string
+          lead_id: string
+          message: string | null
+          metadata: Json
+        }
+        Insert: {
+          activity_type: string
+          actor?: string | null
+          created_at?: string
+          id?: string
+          lead_id: string
+          message?: string | null
+          metadata?: Json
+        }
+        Update: {
+          activity_type?: string
+          actor?: string | null
+          created_at?: string
+          id?: string
+          lead_id?: string
+          message?: string | null
+          metadata?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lead_activities_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "smartway_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       legal_pages: {
         Row: {
           content_en: string | null
@@ -794,6 +832,87 @@ export type Database = {
           vision_en?: string | null
           vision_fr?: string | null
           youtube_url?: string | null
+        }
+        Relationships: []
+      }
+      smartway_leads: {
+        Row: {
+          archived_at: string | null
+          assigned_to: string | null
+          company: string
+          company_size: string | null
+          created_at: string
+          email: string
+          free_text: string | null
+          id: string
+          industry: string | null
+          ip_hash: string | null
+          locale: string
+          name: string
+          next_follow_up_at: string | null
+          notes: string | null
+          phone: string
+          preferred_followup: string
+          priority: string
+          qualifying_answers: Json
+          region: string | null
+          requires_human_followup: boolean
+          service_interest: string
+          source_url: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          archived_at?: string | null
+          assigned_to?: string | null
+          company: string
+          company_size?: string | null
+          created_at?: string
+          email: string
+          free_text?: string | null
+          id?: string
+          industry?: string | null
+          ip_hash?: string | null
+          locale?: string
+          name: string
+          next_follow_up_at?: string | null
+          notes?: string | null
+          phone: string
+          preferred_followup?: string
+          priority?: string
+          qualifying_answers?: Json
+          region?: string | null
+          requires_human_followup?: boolean
+          service_interest: string
+          source_url?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          archived_at?: string | null
+          assigned_to?: string | null
+          company?: string
+          company_size?: string | null
+          created_at?: string
+          email?: string
+          free_text?: string | null
+          id?: string
+          industry?: string | null
+          ip_hash?: string | null
+          locale?: string
+          name?: string
+          next_follow_up_at?: string | null
+          notes?: string | null
+          phone?: string
+          preferred_followup?: string
+          priority?: string
+          qualifying_answers?: Json
+          region?: string | null
+          requires_human_followup?: boolean
+          service_interest?: string
+          source_url?: string | null
+          status?: string
+          updated_at?: string
         }
         Relationships: []
       }
