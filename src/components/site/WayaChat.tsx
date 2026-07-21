@@ -353,14 +353,14 @@ export default function WayaChat() {
     }
   };
 
-  const openSupportWhatsApp = () => {
+  const supportWhatsAppHref = (() => {
     const desc = state.support_desc.trim();
     const msg = lang === "fr"
       ? `Bonjour Smartway, j'ai besoin d'assistance. Voici mon problème : ${desc}`
       : `Hello Smartway, I need support. Here is my issue: ${desc}`;
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  })();
+
 
   // ---------- UI atoms ----------
   const BotBubble = ({ children }: { children: React.ReactNode }) => (
