@@ -342,6 +342,7 @@ function FilterSelect({ label, allLabel, value, onChange, options, formatter }: 
 function StatusPill({ value, lang }: { value: string; lang: "en" | "fr" }) {
   const color: Record<string, string> = {
     awaiting_sales_call: "bg-blue-100 text-blue-800",
+    awaiting_support: "bg-orange-100 text-orange-800",
     assigned: "bg-indigo-100 text-indigo-800",
     call_attempted: "bg-yellow-100 text-yellow-800",
     contacted: "bg-teal-100 text-teal-800",
