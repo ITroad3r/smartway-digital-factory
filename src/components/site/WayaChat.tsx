@@ -732,10 +732,12 @@ export default function WayaChat() {
           <div className="flex flex-col gap-3">
             <BotBubble>{t("supportChoicePrompt")}</BotBubble>
             <div className="flex flex-col" style={{ gap: 8 }}>
-              <button
+              <a
                 ref={focusRefFor(true) as any}
-                onClick={openSupportWhatsApp}
-                className="w-full text-left transition-colors focus:outline-none focus-visible:ring-2 flex items-center gap-2 text-white"
+                href={supportWhatsAppHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full text-left transition-colors focus:outline-none focus-visible:ring-2 flex items-center gap-2 text-white no-underline"
                 style={{
                   minHeight: 42, padding: "10px 16px", borderRadius: 12,
                   background: BRAND.whatsapp, border: `1px solid ${BRAND.whatsapp}`, fontSize: 14,
@@ -743,13 +745,14 @@ export default function WayaChat() {
               >
                 <WhatsAppIcon size={18} />
                 <span>{t("supportOnWhatsapp")}</span>
-              </button>
+              </a>
               <ChoiceButton onClick={() => setState((s) => ({ ...s, step: "support_contact" }))}>
                 {t("supportLeaveContact")}
               </ChoiceButton>
             </div>
           </div>
         );
+
 
       case "support_contact":
         return renderContactForm(t("supportContactIntro"), submitSupport);
