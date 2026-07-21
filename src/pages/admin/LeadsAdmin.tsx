@@ -283,12 +283,17 @@ export default function LeadsAdmin() {
             <div className="flex justify-between gap-2">
               <div>
                 <p className="font-medium">{l.name}</p>
-                <p className="text-xs text-muted-foreground">{l.company}</p>
+                <p className="text-xs text-muted-foreground">{l.company ?? "—"}</p>
               </div>
-              <StatusPill value={l.status} lang={lang} />
+              <div className="flex flex-col items-end gap-1">
+                <StatusPill value={l.status} lang={lang} />
+                <span className={`px-2 py-0.5 rounded-full text-[10px] whitespace-nowrap ${l.request_type === "support_request" ? "bg-orange-100 text-orange-800" : "bg-sky-100 text-sky-800"}`}>
+                  {REQUEST_TYPE_LABEL[l.request_type ?? "service_enquiry"]?.[lang] ?? l.request_type}
+                </span>
+              </div>
             </div>
             <p className="text-xs">{SERVICE_LABEL[l.service_interest] ?? l.service_interest} · <span className="font-mono">{l.phone}</span></p>
-            <p className="text-xs text-muted-foreground truncate">{firstAnswer(l.qualifying_answers)}</p>
+            <p className="text-xs text-muted-foreground truncate">{l.request_type === "support_request" ? (l.free_text ?? "—") : firstAnswer(l.qualifying_answers)}</p>
             <p className="text-[10px] text-muted-foreground">{new Date(l.created_at).toLocaleString()}{l.next_follow_up_at ? ` · FU ${new Date(l.next_follow_up_at).toLocaleDateString()}` : ""}</p>
           </button>
         ))}
