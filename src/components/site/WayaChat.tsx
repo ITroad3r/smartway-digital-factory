@@ -752,7 +752,7 @@ export default function WayaChat() {
         );
 
       case "support_contact":
-        return <ContactForm intro={t("supportContactIntro")} onSubmit={submitSupport} />;
+        return renderContactForm(t("supportContactIntro"), submitSupport);
 
       case "done": {
         const isSupport = state.done_kind === "support_request";
