@@ -124,6 +124,7 @@ export default function LeadsAdmin() {
   const [search, setSearch] = useState("");
   const [fStatus, setFStatus] = useState("");
   const [fService, setFService] = useState("");
+  const [fRequestType, setFRequestType] = useState("");
   const [fPriority, setFPriority] = useState("");
   const [fUnassigned, setFUnassigned] = useState(false);
   const [fOverdue, setFOverdue] = useState(false);
