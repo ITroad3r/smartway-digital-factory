@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Loader2, Archive, UserPlus, Filter, PhoneCall, PhoneOff, CheckCircle2, Send, Trophy, XCircle } from "lucide-react";
 
 const STATUSES = [
-  "awaiting_sales_call", "assigned", "call_attempted", "contacted",
+  "awaiting_sales_call", "awaiting_support", "assigned", "call_attempted", "contacted",
   "qualified", "proposal_sent", "won", "lost", "archived",
 ] as const;
 type Status = typeof STATUSES[number];
