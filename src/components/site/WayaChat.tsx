@@ -799,27 +799,36 @@ export default function WayaChat() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t("openWhatsapp")}
-            className="rounded-full shadow-lg hover:scale-105 transition-transform focus:outline-none focus-visible:ring-4 flex items-center justify-center"
+            className="h-14 w-14 max-sm:h-[52px] max-sm:w-[52px] shrink-0 rounded-full shadow-lg transition-transform hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#29ABE2]/40 flex items-center justify-center p-0"
             style={{
-              width: 54, height: 54,
               background: BRAND.whatsapp,
-              boxShadow: "0 8px 24px rgba(37,211,102,0.35)",
+              boxShadow: "0 8px 24px rgba(27,42,74,0.25)",
             }}
           >
-            <WhatsAppIcon size={30} />
+            <WhatsAppIcon size={25} />
           </a>
           <button
             aria-label={t("open")}
             onClick={() => { setOpen(true); setMinimized(false); }}
-            className="rounded-full shadow-lg hover:scale-105 transition-transform focus:outline-none focus-visible:ring-4"
+            className="h-14 w-14 max-sm:h-[52px] max-sm:w-[52px] shrink-0 rounded-full shadow-lg transition-transform hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#29ABE2]/40 flex items-center justify-center p-0"
             style={{
-              width: 60, height: 60,
-              background: BRAND.white,
+              background: BRAND.navy,
               boxShadow: "0 8px 24px rgba(27,42,74,0.25)",
             }}
           >
-            <img src={WAYA_AVATAR} alt="Waya" className="w-full h-full rounded-full" style={{ objectFit: "contain" }} />
+            <span
+              className="rounded-full flex items-center justify-center overflow-hidden"
+              style={{ width: "82%", height: "82%", background: BRAND.white }}
+            >
+              <img
+                src={WAYA_AVATAR}
+                alt="Waya"
+                className="w-full h-full"
+                style={{ objectFit: "contain", transform: "scale(1.15)" }}
+              />
+            </span>
           </button>
+
         </div>
       )}
 
