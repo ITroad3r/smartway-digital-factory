@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Loader2, Archive, UserPlus, Filter, PhoneCall, PhoneOff, CheckCircle2, Send, Trophy, XCircle } from "lucide-react";
 
 const STATUSES = [
-  "awaiting_sales_call", "assigned", "call_attempted", "contacted",
+  "awaiting_sales_call", "awaiting_support", "assigned", "call_attempted", "contacted",
   "qualified", "proposal_sent", "won", "lost", "archived",
 ] as const;
 type Status = typeof STATUSES[number];
@@ -15,6 +15,7 @@ const PRIORITIES = ["low", "normal", "high"] as const;
 
 const STATUS_LABELS: Record<Status, { en: string; fr: string }> = {
   awaiting_sales_call: { en: "Awaiting call", fr: "En attente d'appel" },
+  awaiting_support: { en: "Awaiting support", fr: "En attente d'assistance" },
   assigned: { en: "Assigned", fr: "Assignée" },
   call_attempted: { en: "Call attempted", fr: "Tentative d'appel" },
   contacted: { en: "Contacted", fr: "Contacté" },
@@ -34,6 +35,12 @@ const SERVICE_LABEL: Record<string, string> = {
   integration_modernization: "Integration",
   cybersecurity_compliance: "Cybersecurity",
   general_enquiry: "General",
+  support: "Support",
+};
+
+const REQUEST_TYPE_LABEL: Record<string, { en: string; fr: string }> = {
+  service_enquiry: { en: "Sales enquiry", fr: "Demande commerciale" },
+  support_request: { en: "Support request", fr: "Demande d'assistance" },
 };
 
 const UI = {
@@ -63,13 +70,15 @@ const UI = {
   wonStat: { en: "Won", fr: "Gagnées" },
   unassignedStat: { en: "Unassigned", fr: "Non assignées" },
   columns: {
-    en: ["Date", "Name", "Company", "Phone", "Email", "Service", "Main answer", "Status", "Assigned", "Next FU", ""],
-    fr: ["Date", "Nom", "Société", "Téléphone", "Email", "Service", "Réponse", "Statut", "Assigné", "Relance", ""],
+    en: ["Date", "Type", "Name", "Company", "Phone", "Email", "Service", "Main answer", "Status", "Assigned", "Next FU", ""],
+    fr: ["Date", "Type", "Nom", "Société", "Téléphone", "Email", "Service", "Réponse", "Statut", "Assigné", "Relance", ""],
   },
+  requestType: { en: "Request type", fr: "Type de demande" },
 };
 
 type Lead = {
   id: string;
+  request_type: string;
   name: string; email: string; phone: string; company: string;
   service_interest: string;
   status: Status;
@@ -115,6 +124,7 @@ export default function LeadsAdmin() {
   const [search, setSearch] = useState("");
   const [fStatus, setFStatus] = useState("");
   const [fService, setFService] = useState("");
+  const [fRequestType, setFRequestType] = useState("");
   const [fPriority, setFPriority] = useState("");
   const [fUnassigned, setFUnassigned] = useState(false);
   const [fOverdue, setFOverdue] = useState(false);
@@ -130,6 +140,7 @@ export default function LeadsAdmin() {
     let q = supabase.from("smartway_leads").select("*", { count: "exact" });
     if (fStatus) q = q.eq("status", fStatus);
     if (fService) q = q.eq("service_interest", fService);
+    if (fRequestType) q = q.eq("request_type", fRequestType);
     if (fPriority) q = q.eq("priority", fPriority);
     if (fUnassigned) q = q.is("assigned_to", null);
     if (fMine && user) q = q.eq("assigned_to", user.id);
@@ -172,11 +183,11 @@ export default function LeadsAdmin() {
     });
   };
 
-  useEffect(() => { load(); }, [page, fStatus, fService, fPriority, fUnassigned, fOverdue, fMine, fFrom, fTo]);
+  useEffect(() => { load(); }, [page, fStatus, fService, fRequestType, fPriority, fUnassigned, fOverdue, fMine, fFrom, fTo]);
   useEffect(() => { loadStats(); }, []);
 
   const resetFilters = () => {
-    setSearch(""); setFStatus(""); setFService(""); setFPriority("");
+    setSearch(""); setFStatus(""); setFService(""); setFRequestType(""); setFPriority("");
     setFUnassigned(false); setFOverdue(false); setFMine(false);
     setFFrom(""); setFTo(""); setPage(0);
   };
@@ -209,6 +220,7 @@ export default function LeadsAdmin() {
             placeholder={L("searchPh")} className="border border-border rounded-lg px-3 py-2 text-sm w-64" />
         </div>
         <FilterSelect label={L("status")} allLabel={L("all")} value={fStatus} onChange={(v) => { setFStatus(v); setPage(0); }} options={STATUSES as any} formatter={(s) => STATUS_LABELS[s as Status]?.[lang] ?? s} />
+        <FilterSelect label={L("requestType")} allLabel={L("all")} value={fRequestType} onChange={(v) => { setFRequestType(v); setPage(0); }} options={Object.keys(REQUEST_TYPE_LABEL)} formatter={(k) => REQUEST_TYPE_LABEL[k]?.[lang] ?? k} />
         <FilterSelect label={L("service")} allLabel={L("all")} value={fService} onChange={(v) => { setFService(v); setPage(0); }} options={Object.keys(SERVICE_LABEL)} formatter={(k) => SERVICE_LABEL[k] ?? k} />
         <FilterSelect label={L("priority")} allLabel={L("all")} value={fPriority} onChange={(v) => { setFPriority(v); setPage(0); }} options={PRIORITIES as any} />
         <div>
@@ -238,12 +250,19 @@ export default function LeadsAdmin() {
             {!loading && !error && leads.map((l) => (
               <tr key={l.id} onClick={() => setSelected(l)} className="border-t border-border cursor-pointer hover:bg-paper-soft">
                 <td className="p-3 whitespace-nowrap">{new Date(l.created_at).toLocaleDateString()}</td>
+                <td className="p-3">
+                  <span className={`px-2 py-0.5 rounded-full text-[11px] whitespace-nowrap ${l.request_type === "support_request" ? "bg-orange-100 text-orange-800" : "bg-sky-100 text-sky-800"}`}>
+                    {REQUEST_TYPE_LABEL[l.request_type ?? "service_enquiry"]?.[lang] ?? l.request_type}
+                  </span>
+                </td>
                 <td className="p-3">{l.name}</td>
-                <td className="p-3">{l.company}</td>
+                <td className="p-3">{l.company ?? "—"}</td>
                 <td className="p-3 whitespace-nowrap">{l.phone}</td>
                 <td className="p-3 truncate max-w-[180px]">{l.email}</td>
                 <td className="p-3">{SERVICE_LABEL[l.service_interest] ?? l.service_interest}</td>
-                <td className="p-3 truncate max-w-[180px] text-muted-foreground">{firstAnswer(l.qualifying_answers)}</td>
+                <td className="p-3 truncate max-w-[180px] text-muted-foreground">
+                  {l.request_type === "support_request" ? (l.free_text ?? "—") : firstAnswer(l.qualifying_answers)}
+                </td>
                 <td className="p-3"><StatusPill value={l.status} lang={lang} /></td>
                 <td className="p-3">{l.assigned_to ? l.assigned_to.slice(0, 8) : "—"}</td>
                 <td className="p-3 whitespace-nowrap">{l.next_follow_up_at ? new Date(l.next_follow_up_at).toLocaleDateString() : "—"}</td>
@@ -264,12 +283,17 @@ export default function LeadsAdmin() {
             <div className="flex justify-between gap-2">
               <div>
                 <p className="font-medium">{l.name}</p>
-                <p className="text-xs text-muted-foreground">{l.company}</p>
+                <p className="text-xs text-muted-foreground">{l.company ?? "—"}</p>
               </div>
-              <StatusPill value={l.status} lang={lang} />
+              <div className="flex flex-col items-end gap-1">
+                <StatusPill value={l.status} lang={lang} />
+                <span className={`px-2 py-0.5 rounded-full text-[10px] whitespace-nowrap ${l.request_type === "support_request" ? "bg-orange-100 text-orange-800" : "bg-sky-100 text-sky-800"}`}>
+                  {REQUEST_TYPE_LABEL[l.request_type ?? "service_enquiry"]?.[lang] ?? l.request_type}
+                </span>
+              </div>
             </div>
             <p className="text-xs">{SERVICE_LABEL[l.service_interest] ?? l.service_interest} · <span className="font-mono">{l.phone}</span></p>
-            <p className="text-xs text-muted-foreground truncate">{firstAnswer(l.qualifying_answers)}</p>
+            <p className="text-xs text-muted-foreground truncate">{l.request_type === "support_request" ? (l.free_text ?? "—") : firstAnswer(l.qualifying_answers)}</p>
             <p className="text-[10px] text-muted-foreground">{new Date(l.created_at).toLocaleString()}{l.next_follow_up_at ? ` · FU ${new Date(l.next_follow_up_at).toLocaleDateString()}` : ""}</p>
           </button>
         ))}
@@ -318,6 +342,7 @@ function FilterSelect({ label, allLabel, value, onChange, options, formatter }: 
 function StatusPill({ value, lang }: { value: string; lang: "en" | "fr" }) {
   const color: Record<string, string> = {
     awaiting_sales_call: "bg-blue-100 text-blue-800",
+    awaiting_support: "bg-orange-100 text-orange-800",
     assigned: "bg-indigo-100 text-indigo-800",
     call_attempted: "bg-yellow-100 text-yellow-800",
     contacted: "bg-teal-100 text-teal-800",

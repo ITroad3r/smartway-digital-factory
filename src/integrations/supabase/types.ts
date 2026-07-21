@@ -839,7 +839,7 @@ export type Database = {
         Row: {
           archived_at: string | null
           assigned_to: string | null
-          company: string
+          company: string | null
           company_size: string | null
           created_at: string
           email: string
@@ -856,6 +856,7 @@ export type Database = {
           priority: string
           qualifying_answers: Json
           region: string | null
+          request_type: string
           requires_human_followup: boolean
           service_interest: string
           source_url: string | null
@@ -865,7 +866,7 @@ export type Database = {
         Insert: {
           archived_at?: string | null
           assigned_to?: string | null
-          company: string
+          company?: string | null
           company_size?: string | null
           created_at?: string
           email: string
@@ -882,6 +883,7 @@ export type Database = {
           priority?: string
           qualifying_answers?: Json
           region?: string | null
+          request_type?: string
           requires_human_followup?: boolean
           service_interest: string
           source_url?: string | null
@@ -891,7 +893,7 @@ export type Database = {
         Update: {
           archived_at?: string | null
           assigned_to?: string | null
-          company?: string
+          company?: string | null
           company_size?: string | null
           created_at?: string
           email?: string
@@ -908,6 +910,7 @@ export type Database = {
           priority?: string
           qualifying_answers?: Json
           region?: string | null
+          request_type?: string
           requires_human_followup?: boolean
           service_interest?: string
           source_url?: string | null
