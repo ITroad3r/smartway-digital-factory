@@ -492,73 +492,110 @@ export default function WayaChat() {
   };
 
   // ---------- Contact block used by both flows ----------
-  const ContactForm = ({ onSubmit, intro }: { onSubmit: () => void; intro: string }) => {
-    const c = state.contact;
-    const setC = (patch: Partial<State["contact"]>) => setState((s) => ({ ...s, contact: { ...s.contact, ...patch } }));
-    const inp = (
-      name: keyof State["contact"], label: string, type = "text", maxLength = 160,
-      isFirst = false, required = false,
-    ) => (
-      <div>
-        <label className="block text-xs mb-1" style={{ color: BRAND.muted }}>
-          {label}{required && <span style={{ color: BRAND.blue }}> *</span>}
-        </label>
-        <input
-          ref={isFirst ? (focusRefFor(true) as any) : undefined}
-          type={type}
-          value={c[name]}
-          maxLength={maxLength}
-          onChange={(e) => setC({ [name]: e.target.value } as any)}
-          className="w-full p-2.5 text-sm focus:outline-none focus:ring-2"
-          style={{
-            borderRadius: 12,
-            border: `1px solid ${fieldError[name] ? "#ef4444" : BRAND.btnBorder}`,
-            background: BRAND.white,
-            color: BRAND.text,
-          }}
-        />
-        {fieldError[name] && <p className="text-xs mt-1 text-red-600">{fieldError[name]}</p>}
-      </div>
-    );
-    return (
-      <div className="flex flex-col gap-3">
-        <BotBubble>{intro}</BotBubble>
-        <div className="grid gap-3">
-          {inp("name", t("name"), "text", 120, true, true)}
-          {inp("phone", t("phone"), "tel", 40, false, true)}
-          {inp("email", t("email"), "email", 254, false, true)}
-          {inp("company", t("company"), "text", 160)}
+  // NOTE: This is a plain function that returns JSX (NOT a nested React component).
+  // Declaring it as a component inside WayaChat would give it a new identity on every
+  // render, causing inputs to unmount/remount on each keystroke and lose focus.
+  const setContactField = (name: keyof State["contact"], value: string) =>
+    setState((s) => ({ ...s, contact: { ...s.contact, [name]: value } }));
+
+  const renderContactInput = (
+    name: keyof State["contact"], label: string, type = "text", maxLength = 160,
+    isFirst = false, required = false,
+  ) => (
+    <div key={name}>
+      <label className="block text-xs mb-1" style={{ color: BRAND.muted }}>
+        {label}{required && <span style={{ color: BRAND.blue }}> *</span>}
+      </label>
+      <input
+        ref={isFirst ? (focusRefFor(true) as any) : undefined}
+        type={type}
+        name={name}
+        autoComplete={name === "email" ? "email" : name === "phone" ? "tel" : name === "name" ? "name" : name === "company" ? "organization" : "off"}
+        value={state.contact[name]}
+        maxLength={maxLength}
+        onChange={(e) => setContactField(name, e.target.value)}
+        onKeyDown={(e) => { if (e.key === "Enter") e.preventDefault(); }}
+        className="w-full text-sm focus:outline-none"
+        style={{
+          minHeight: 42,
+          padding: "10px 14px",
+          borderRadius: 12,
+          border: `1px solid ${fieldError[name] ? "#ef4444" : BRAND.btnBorder}`,
+          background: BRAND.white,
+          color: BRAND.text,
+          width: "100%",
+          boxShadow: "none",
+          outline: "none",
+        }}
+        onFocus={(e) => { e.currentTarget.style.borderColor = BRAND.blue; e.currentTarget.style.boxShadow = `0 0 0 2px ${BRAND.selBg}`; }}
+        onBlur={(e) => { e.currentTarget.style.borderColor = fieldError[name] ? "#ef4444" : BRAND.btnBorder; e.currentTarget.style.boxShadow = "none"; }}
+      />
+      {fieldError[name] && <p className="text-xs mt-1 text-red-600">{fieldError[name]}</p>}
+    </div>
+  );
+
+  const renderContactForm = (intro: string, onSubmit: () => void) => (
+    <div className="flex flex-col gap-3">
+      <BotBubble>{intro}</BotBubble>
+      <div className="grid gap-3">
+        {renderContactInput("name", t("name"), "text", 120, true, true)}
+        {renderContactInput("phone", t("phone"), "tel", 40, false, true)}
+        {renderContactInput("email", t("email"), "email", 254, false, true)}
+        {renderContactInput("company", t("company"), "text", 160)}
+        <div>
+          <label className="block text-xs mb-1" style={{ color: BRAND.muted }}>{t("message")}</label>
+          <textarea
+            name="message"
+            value={state.contact.message}
+            maxLength={2000}
+            rows={3}
+            onChange={(e) => setContactField("message", e.target.value)}
+            className="w-full text-sm focus:outline-none"
+            style={{
+              minHeight: 42,
+              padding: "10px 14px",
+              borderRadius: 12,
+              border: `1px solid ${BRAND.btnBorder}`,
+              background: BRAND.white,
+              color: BRAND.text,
+              width: "100%",
+              resize: "vertical",
+            }}
+            onFocus={(e) => { e.currentTarget.style.borderColor = BRAND.blue; e.currentTarget.style.boxShadow = `0 0 0 2px ${BRAND.selBg}`; }}
+            onBlur={(e) => { e.currentTarget.style.borderColor = BRAND.btnBorder; e.currentTarget.style.boxShadow = "none"; }}
+          />
         </div>
-
-        {state.intent === "service_enquiry" && (
-          <div className="rounded-xl px-3 py-2 text-xs flex items-start justify-between gap-2"
-            style={{ background: BRAND.selBg, border: `1px solid ${BRAND.btnBorder}`, color: BRAND.text }}>
-            <p className="leading-snug">
-              <span className="font-semibold">{t("yourRequest")} :</span> {summary()}
-            </p>
-            <button
-              onClick={() => setState((s) => ({ ...s, step: s.service === "general_enquiry" ? "free_text" : "q1" }))}
-              className="underline flex-shrink-0"
-              style={{ color: BRAND.blue }}
-            >{t("edit")}</button>
-          </div>
-        )}
-
-        <p className="text-xs" style={{ color: BRAND.muted }}>
-          {t("consent")} <a href="/legal/privacy" target="_blank" rel="noopener" className="underline" style={{ color: BRAND.blue }}>{t("privacyLink")}</a>.
-        </p>
-
-        <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" onChange={() => {}} />
-        {error && <p className="text-sm text-red-600" role="alert">{error}</p>}
-
-        <div className="flex justify-end">
-          <PrimaryBtn onClick={onSubmit} disabled={submitting} className="inline-flex items-center gap-2">
-            <Send className="w-4 h-4" /> {t("submit")}
-          </PrimaryBtn>
-        </div>
       </div>
-    );
-  };
+
+      {state.intent === "service_enquiry" && (
+        <div className="rounded-xl px-3 py-2 text-xs flex items-start justify-between gap-2"
+          style={{ background: BRAND.selBg, border: `1px solid ${BRAND.btnBorder}`, color: BRAND.text }}>
+          <p className="leading-snug">
+            <span className="font-semibold">{t("yourRequest")} :</span> {summary()}
+          </p>
+          <button
+            onClick={() => setState((s) => ({ ...s, step: s.service === "general_enquiry" ? "free_text" : "q1" }))}
+            className="underline flex-shrink-0"
+            style={{ color: BRAND.blue }}
+          >{t("edit")}</button>
+        </div>
+      )}
+
+      <p className="text-xs" style={{ color: BRAND.muted }}>
+        {t("consent")} <a href="/legal/privacy" target="_blank" rel="noopener" className="underline" style={{ color: BRAND.blue }}>{t("privacyLink")}</a>.
+      </p>
+
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" onChange={() => {}} />
+      {error && <p className="text-sm text-red-600" role="alert">{error}</p>}
+
+      <div className="flex sm:justify-end">
+        <PrimaryBtn onClick={onSubmit} disabled={submitting} className="inline-flex items-center justify-center gap-2 w-full sm:w-auto">
+          <Send className="w-4 h-4" /> {t("submit")}
+        </PrimaryBtn>
+      </div>
+    </div>
+  );
+
 
   // ---------- Steps ----------
   const renderStep = () => {
@@ -663,7 +700,7 @@ export default function WayaChat() {
         );
 
       case "contact":
-        return <ContactForm intro={t("contactIntro")} onSubmit={submitService} />;
+        return renderContactForm(t("contactIntro"), submitService);
 
       case "support_desc":
         return (
@@ -715,7 +752,7 @@ export default function WayaChat() {
         );
 
       case "support_contact":
-        return <ContactForm intro={t("supportContactIntro")} onSubmit={submitSupport} />;
+        return renderContactForm(t("supportContactIntro"), submitSupport);
 
       case "done": {
         const isSupport = state.done_kind === "support_request";
@@ -762,27 +799,36 @@ export default function WayaChat() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label={t("openWhatsapp")}
-            className="rounded-full shadow-lg hover:scale-105 transition-transform focus:outline-none focus-visible:ring-4 flex items-center justify-center"
+            className="h-14 w-14 max-sm:h-[52px] max-sm:w-[52px] shrink-0 rounded-full shadow-lg transition-transform hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#29ABE2]/40 flex items-center justify-center p-0"
             style={{
-              width: 54, height: 54,
               background: BRAND.whatsapp,
-              boxShadow: "0 8px 24px rgba(37,211,102,0.35)",
+              boxShadow: "0 8px 24px rgba(27,42,74,0.25)",
             }}
           >
-            <WhatsAppIcon size={30} />
+            <WhatsAppIcon size={25} />
           </a>
           <button
             aria-label={t("open")}
             onClick={() => { setOpen(true); setMinimized(false); }}
-            className="rounded-full shadow-lg hover:scale-105 transition-transform focus:outline-none focus-visible:ring-4"
+            className="h-14 w-14 max-sm:h-[52px] max-sm:w-[52px] shrink-0 rounded-full shadow-lg transition-transform hover:scale-105 focus:outline-none focus-visible:ring-4 focus-visible:ring-[#29ABE2]/40 flex items-center justify-center p-0"
             style={{
-              width: 60, height: 60,
-              background: BRAND.white,
+              background: BRAND.navy,
               boxShadow: "0 8px 24px rgba(27,42,74,0.25)",
             }}
           >
-            <img src={WAYA_AVATAR} alt="Waya" className="w-full h-full rounded-full" style={{ objectFit: "contain" }} />
+            <span
+              className="rounded-full flex items-center justify-center overflow-hidden"
+              style={{ width: "82%", height: "82%", background: BRAND.white }}
+            >
+              <img
+                src={WAYA_AVATAR}
+                alt="Waya"
+                className="w-full h-full"
+                style={{ objectFit: "contain", transform: "scale(1.15)" }}
+              />
+            </span>
           </button>
+
         </div>
       )}
 
