@@ -35,6 +35,12 @@ const SERVICE_LABEL: Record<string, string> = {
   integration_modernization: "Integration",
   cybersecurity_compliance: "Cybersecurity",
   general_enquiry: "General",
+  support: "Support",
+};
+
+const REQUEST_TYPE_LABEL: Record<string, { en: string; fr: string }> = {
+  service_enquiry: { en: "Sales enquiry", fr: "Demande commerciale" },
+  support_request: { en: "Support request", fr: "Demande d'assistance" },
 };
 
 const UI = {
