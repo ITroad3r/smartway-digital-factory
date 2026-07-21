@@ -11,15 +11,16 @@ const supabase = createClient(SUPABASE_URL, SERVICE_ROLE, {
   auth: { persistSession: false, autoRefreshToken: false },
 });
 
-// Simple in-memory cooldown (per instance, best-effort)
 const recent = new Map<string, number>();
 const COOLDOWN_MS = 20_000;
 
 const VALID_SERVICES = new Set([
   "software_development", "cloud_devops", "data_ai", "ux_ui",
   "digital_strategy", "integration_modernization", "cybersecurity_compliance",
-  "general_enquiry",
+  "general_enquiry", "support",
 ]);
+
+const VALID_REQUEST_TYPES = new Set(["service_enquiry", "support_request"]);
 
 function bad(msg: string, status = 400) {
   return new Response(JSON.stringify({ error: msg }), {
@@ -41,7 +42,6 @@ Deno.serve(async (req) => {
   let body: any;
   try { body = await req.json(); } catch { return bad("Invalid JSON"); }
 
-  // Honeypot
   if (body.website && String(body.website).trim() !== "") {
     return new Response(JSON.stringify({ ok: true }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   }
@@ -54,6 +54,7 @@ Deno.serve(async (req) => {
   }
 
   const trim = (v: any, max: number) => typeof v === "string" ? v.trim().slice(0, max) : "";
+  const request_type = VALID_REQUEST_TYPES.has(body.request_type) ? body.request_type : "service_enquiry";
   const name = trim(body.name, 120);
   const email = trim(body.email, 254).toLowerCase();
   const phone = trim(body.phone, 40);
@@ -62,40 +63,36 @@ Deno.serve(async (req) => {
   const locale = body.locale === "en" ? "en" : "fr";
   const source_url = trim(body.source_url, 500);
   const free_text = trim(body.free_text, 2000);
-  const company_size = trim(body.company_size, 20);
-  const region = trim(body.region, 40);
-  const industry = trim(body.industry, 120);
   const qualifying = (body.qualifying_answers && typeof body.qualifying_answers === "object" && !Array.isArray(body.qualifying_answers))
     ? body.qualifying_answers : {};
 
   if (!name) return bad("Name is required");
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return bad("Valid email required");
   if (!phone || phone.length < 6) return bad("Phone required");
-  if (!company) return bad("Company required");
   if (!VALID_SERVICES.has(service)) return bad("Invalid service");
 
-  // Priority heuristic for cybersecurity active concern
   let priority = "normal";
   const urgency = String(qualifying.urgency ?? "").toLowerCase();
   if (service === "cybersecurity_compliance" && urgency === "active_concern") priority = "high";
+  if (request_type === "support_request") priority = "high";
 
-  const requires_human_followup = service === "general_enquiry";
+  const status = request_type === "support_request" ? "awaiting_support" : "awaiting_sales_call";
+  const requires_human_followup = request_type === "support_request" || service === "general_enquiry";
 
   const { data: lead, error } = await supabase
     .from("smartway_leads")
     .insert({
-      name, email, phone, company,
+      request_type,
+      name, email, phone,
+      company: company || null,
       service_interest: service,
       qualifying_answers: qualifying,
-      company_size: company_size || null,
-      region: region || null,
-      industry: industry || null,
       locale,
       source_url: source_url || null,
       free_text: free_text || null,
       priority,
       requires_human_followup,
-      status: "awaiting_sales_call",
+      status,
       preferred_followup: "phone_call",
       ip_hash: ipKey,
     })
@@ -111,13 +108,12 @@ Deno.serve(async (req) => {
     lead_id: lead.id,
     actor: null,
     activity_type: "lead_created",
-    message: "Lead submitted via Waya chatbot",
-    metadata: { service, locale, priority },
+    message: request_type === "support_request" ? "Support request submitted via Waya" : "Lead submitted via Waya chatbot",
+    metadata: { service, locale, priority, request_type },
   });
 
   recent.set(ipKey, Date.now());
 
-  // Fire-and-forget notification (never rolls back the saved lead)
   if (SALES_WEBHOOK_URL) {
     try {
       await fetch(SALES_WEBHOOK_URL, {
@@ -126,6 +122,7 @@ Deno.serve(async (req) => {
         body: JSON.stringify({
           type: "new_lead",
           lead_id: lead.id,
+          request_type,
           name, company, email, phone, service_interest: service,
           qualifying_answers: qualifying, urgency, priority,
           source_url, submitted_at: new Date().toISOString(),
@@ -135,7 +132,7 @@ Deno.serve(async (req) => {
       console.error("notification failed", e);
     }
   } else {
-    console.log("NEW_LEAD", { lead_id: lead.id, name, company, service, priority });
+    console.log("NEW_LEAD", { lead_id: lead.id, name, company, service, priority, request_type });
   }
 
   return new Response(JSON.stringify({ ok: true, lead_id: lead.id }), {
