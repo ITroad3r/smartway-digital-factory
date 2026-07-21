@@ -15,6 +15,7 @@ const PRIORITIES = ["low", "normal", "high"] as const;
 
 const STATUS_LABELS: Record<Status, { en: string; fr: string }> = {
   awaiting_sales_call: { en: "Awaiting call", fr: "En attente d'appel" },
+  awaiting_support: { en: "Awaiting support", fr: "En attente d'assistance" },
   assigned: { en: "Assigned", fr: "Assignée" },
   call_attempted: { en: "Call attempted", fr: "Tentative d'appel" },
   contacted: { en: "Contacted", fr: "Contacté" },
