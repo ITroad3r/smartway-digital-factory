@@ -250,12 +250,19 @@ export default function LeadsAdmin() {
             {!loading && !error && leads.map((l) => (
               <tr key={l.id} onClick={() => setSelected(l)} className="border-t border-border cursor-pointer hover:bg-paper-soft">
                 <td className="p-3 whitespace-nowrap">{new Date(l.created_at).toLocaleDateString()}</td>
+                <td className="p-3">
+                  <span className={`px-2 py-0.5 rounded-full text-[11px] whitespace-nowrap ${l.request_type === "support_request" ? "bg-orange-100 text-orange-800" : "bg-sky-100 text-sky-800"}`}>
+                    {REQUEST_TYPE_LABEL[l.request_type ?? "service_enquiry"]?.[lang] ?? l.request_type}
+                  </span>
+                </td>
                 <td className="p-3">{l.name}</td>
-                <td className="p-3">{l.company}</td>
+                <td className="p-3">{l.company ?? "—"}</td>
                 <td className="p-3 whitespace-nowrap">{l.phone}</td>
                 <td className="p-3 truncate max-w-[180px]">{l.email}</td>
                 <td className="p-3">{SERVICE_LABEL[l.service_interest] ?? l.service_interest}</td>
-                <td className="p-3 truncate max-w-[180px] text-muted-foreground">{firstAnswer(l.qualifying_answers)}</td>
+                <td className="p-3 truncate max-w-[180px] text-muted-foreground">
+                  {l.request_type === "support_request" ? (l.free_text ?? "—") : firstAnswer(l.qualifying_answers)}
+                </td>
                 <td className="p-3"><StatusPill value={l.status} lang={lang} /></td>
                 <td className="p-3">{l.assigned_to ? l.assigned_to.slice(0, 8) : "—"}</td>
                 <td className="p-3 whitespace-nowrap">{l.next_follow_up_at ? new Date(l.next_follow_up_at).toLocaleDateString() : "—"}</td>
