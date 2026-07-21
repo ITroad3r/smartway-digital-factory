@@ -700,7 +700,7 @@ export default function WayaChat() {
         );
 
       case "contact":
-        return <ContactForm intro={t("contactIntro")} onSubmit={submitService} />;
+        return renderContactForm(t("contactIntro"), submitService);
 
       case "support_desc":
         return (
