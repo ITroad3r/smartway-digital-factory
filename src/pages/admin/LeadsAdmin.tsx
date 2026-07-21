@@ -140,6 +140,7 @@ export default function LeadsAdmin() {
     let q = supabase.from("smartway_leads").select("*", { count: "exact" });
     if (fStatus) q = q.eq("status", fStatus);
     if (fService) q = q.eq("service_interest", fService);
+    if (fRequestType) q = q.eq("request_type", fRequestType);
     if (fPriority) q = q.eq("priority", fPriority);
     if (fUnassigned) q = q.is("assigned_to", null);
     if (fMine && user) q = q.eq("assigned_to", user.id);
