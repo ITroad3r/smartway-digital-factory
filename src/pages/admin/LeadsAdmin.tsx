@@ -183,11 +183,11 @@ export default function LeadsAdmin() {
     });
   };
 
-  useEffect(() => { load(); }, [page, fStatus, fService, fPriority, fUnassigned, fOverdue, fMine, fFrom, fTo]);
+  useEffect(() => { load(); }, [page, fStatus, fService, fRequestType, fPriority, fUnassigned, fOverdue, fMine, fFrom, fTo]);
   useEffect(() => { loadStats(); }, []);
 
   const resetFilters = () => {
-    setSearch(""); setFStatus(""); setFService(""); setFPriority("");
+    setSearch(""); setFStatus(""); setFService(""); setFRequestType(""); setFPriority("");
     setFUnassigned(false); setFOverdue(false); setFMine(false);
     setFFrom(""); setFTo(""); setPage(0);
   };
