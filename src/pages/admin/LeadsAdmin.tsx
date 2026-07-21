@@ -220,6 +220,7 @@ export default function LeadsAdmin() {
             placeholder={L("searchPh")} className="border border-border rounded-lg px-3 py-2 text-sm w-64" />
         </div>
         <FilterSelect label={L("status")} allLabel={L("all")} value={fStatus} onChange={(v) => { setFStatus(v); setPage(0); }} options={STATUSES as any} formatter={(s) => STATUS_LABELS[s as Status]?.[lang] ?? s} />
+        <FilterSelect label={L("requestType")} allLabel={L("all")} value={fRequestType} onChange={(v) => { setFRequestType(v); setPage(0); }} options={Object.keys(REQUEST_TYPE_LABEL)} formatter={(k) => REQUEST_TYPE_LABEL[k]?.[lang] ?? k} />
         <FilterSelect label={L("service")} allLabel={L("all")} value={fService} onChange={(v) => { setFService(v); setPage(0); }} options={Object.keys(SERVICE_LABEL)} formatter={(k) => SERVICE_LABEL[k] ?? k} />
         <FilterSelect label={L("priority")} allLabel={L("all")} value={fPriority} onChange={(v) => { setFPriority(v); setPage(0); }} options={PRIORITIES as any} />
         <div>
