@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { X, Minus, RotateCcw, ChevronLeft, Send, Check } from "lucide-react";
+import { X, Minus, RotateCcw, ChevronLeft, Send, Check, Briefcase, Headset, ChevronRight } from "lucide-react";
 import wayaAsset from "@/assets/waya-avatar.png.asset.json";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -106,8 +106,8 @@ const T = {
   headerTitle: { fr: "Waya", en: "Waya" },
   headerSub: { fr: "L'assistant Smartway", en: "Smartway Assistant" },
   intentPrompt: {
-    fr: "Bonjour 👋 Comment puis-je vous aider aujourd'hui ?",
-    en: "Hello 👋 How can I help you today?",
+    fr: "Bonjour 👋 Je m’appelle Waya, l’assistant Smartway. Comment puis-je vous aider aujourd’hui ?",
+    en: "Hello 👋 My name is Waya, the Smartway assistant. How can I help you today?",
   },
   intentService: {
     fr: "Je suis intéressé par l'un de vos services",
@@ -404,6 +404,69 @@ export default function WayaChat() {
     </button>
   );
 
+  const IntentButton = ({
+    variant,
+    selected,
+    onClick,
+    children,
+    focusRef,
+  }: {
+    variant: "service" | "support";
+    selected?: boolean;
+    onClick: () => void;
+    children: React.ReactNode;
+    focusRef?: (el: HTMLButtonElement | null) => void;
+  }) => {
+    const isService = variant === "service";
+    const Icon = isService ? Briefcase : Headset;
+    return (
+      <button
+        ref={focusRef}
+        onClick={onClick}
+        className="w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#29ABE2] focus-visible:ring-offset-1 transition-all flex items-center justify-between gap-3"
+        style={{
+          minHeight: 52,
+          height: "auto",
+          padding: "12px 16px",
+          borderRadius: 12,
+          background: selected ? BRAND.selBg : (isService ? BRAND.btnBg : BRAND.white),
+          border: `1.5px solid ${selected ? BRAND.selBorder : (isService ? BRAND.blue : BRAND.btnBorder)}`,
+          color: BRAND.text,
+          fontSize: 14,
+          fontWeight: 500,
+          transform: "translateY(0)",
+          boxShadow: selected ? "0 4px 12px rgba(41,171,226,0.12)" : "none",
+        }}
+        onMouseEnter={(e) => {
+          if (!selected) {
+            e.currentTarget.style.background = isService ? "#E5F7FD" : "#F4FBFE";
+            e.currentTarget.style.borderColor = BRAND.blue;
+            e.currentTarget.style.transform = "translateY(-1px)";
+            e.currentTarget.style.boxShadow = "0 4px 14px rgba(27,42,74,0.08)";
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (!selected) {
+            e.currentTarget.style.background = isService ? BRAND.btnBg : BRAND.white;
+            e.currentTarget.style.borderColor = isService ? BRAND.blue : BRAND.btnBorder;
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.boxShadow = "none";
+          }
+        }}
+      >
+        <span className="flex items-center gap-3">
+          <Icon className="w-5 h-5 flex-shrink-0" style={{ color: BRAND.blue }} />
+          <span>{children}</span>
+        </span>
+        {selected ? (
+          <Check className="w-5 h-5 flex-shrink-0" style={{ color: BRAND.blue }} />
+        ) : (
+          <ChevronRight className="w-5 h-5 flex-shrink-0" style={{ color: BRAND.blue }} />
+        )}
+      </button>
+    );
+  };
+
   const PrimaryBtn = (props: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
     <button
       {...props}
@@ -504,12 +567,18 @@ export default function WayaChat() {
         return (
           <div className="flex flex-col gap-3">
             <BotBubble>{t("intentPrompt")}</BotBubble>
-            <div className="flex flex-col" style={{ gap: 8 }}>
-              <ChoiceButton
+            <div className="flex flex-col gap-3">
+              <IntentButton
+                variant="service"
                 focusRef={focusRefFor(true)}
+                selected={state.intent === "service_enquiry"}
                 onClick={() => pickIntent("service_enquiry")}
-              >{t("intentService")}</ChoiceButton>
-              <ChoiceButton onClick={() => pickIntent("support_request")}>{t("intentSupport")}</ChoiceButton>
+              >{t("intentService")}</IntentButton>
+              <IntentButton
+                variant="support"
+                selected={state.intent === "support_request"}
+                onClick={() => pickIntent("support_request")}
+              >{t("intentSupport")}</IntentButton>
             </div>
           </div>
         );
@@ -728,7 +797,9 @@ export default function WayaChat() {
             right: "max(8px, env(safe-area-inset-right))",
             bottom: "max(8px, env(safe-area-inset-bottom))",
             width: "min(420px, calc(100vw - 16px))",
-            height: minimized ? 64 : "min(680px, calc(100dvh - 16px))",
+            height: minimized ? 64 : state.step === "intent" ? "auto" : "min(680px, calc(100dvh - 16px))",
+            minHeight: state.step === "intent" ? 300 : undefined,
+            maxHeight: state.step === "intent" ? "min(560px, calc(100dvh - 16px))" : "calc(100dvh - 16px)",
             background: BRAND.chatBg,
             borderRadius: 16,
             border: `1px solid ${BRAND.btnBorder}`,
