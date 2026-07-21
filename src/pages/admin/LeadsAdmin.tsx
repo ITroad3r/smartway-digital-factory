@@ -70,13 +70,15 @@ const UI = {
   wonStat: { en: "Won", fr: "Gagnées" },
   unassignedStat: { en: "Unassigned", fr: "Non assignées" },
   columns: {
-    en: ["Date", "Name", "Company", "Phone", "Email", "Service", "Main answer", "Status", "Assigned", "Next FU", ""],
-    fr: ["Date", "Nom", "Société", "Téléphone", "Email", "Service", "Réponse", "Statut", "Assigné", "Relance", ""],
+    en: ["Date", "Type", "Name", "Company", "Phone", "Email", "Service", "Main answer", "Status", "Assigned", "Next FU", ""],
+    fr: ["Date", "Type", "Nom", "Société", "Téléphone", "Email", "Service", "Réponse", "Statut", "Assigné", "Relance", ""],
   },
+  requestType: { en: "Request type", fr: "Type de demande" },
 };
 
 type Lead = {
   id: string;
+  request_type: string;
   name: string; email: string; phone: string; company: string;
   service_interest: string;
   status: Status;
