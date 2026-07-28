@@ -2,3 +2,6 @@ project_id = "yctpdyhrhnnncmlnexfq"
 
 [functions.submit-lead]
 verify_jwt = false
+
+[functions.blog-og]
+verify_jwt = false
